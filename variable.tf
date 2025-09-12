@@ -22,26 +22,5 @@ default="laurent"
 
 
 
-variable "azure_subscription"{
-  type=string
-}
-variable "azure_client"{
-  type=string
-}
-variable "azure_client_secret"{
-  type=string
-}
-variable "azure_tenant_id"{
-  type=string
-}
-variable "firstname" {
-type=string
-default="restaurant"
-}
-
-variable "lastname" {
-type=string
-default="mcit"
-}
 
 
