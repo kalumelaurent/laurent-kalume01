@@ -33,14 +33,27 @@ variable "client_secret"{
 variable "tenant_id"{
   type=string
 }
-variable "firstname" {
+variable "restaurant1" {
 type=string
-default="restaurent"
+default="kfc"
 }
 
-variable "lastname" {
+variable "restaurant2" {
 type=string
-default="montreal"
+default="wendys"
 }
 
+variable "restaurant3" {
+type=string
+default="fortier"
+}
 
+variable "restaurant4" {
+type=string
+default="mcdo"
+}
+
+variable "restaurant5" {
+type=string
+default="harvys"
+}
