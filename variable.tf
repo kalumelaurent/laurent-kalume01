@@ -20,3 +20,13 @@ type=string
 default="laurent"
 }
 
+
+variable "firstname" {
+type=string
+default="restaurent"
+}
+
+variable "lastname" {
+type=string
+default="mcit"
+}
