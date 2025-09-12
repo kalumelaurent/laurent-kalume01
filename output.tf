@@ -1,2 +1,3 @@
 output "firstoutput"{ 
-value =var.firstname}
+value =var.firstname
+}
