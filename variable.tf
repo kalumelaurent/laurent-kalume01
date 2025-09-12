@@ -22,16 +22,16 @@ default="laurent"
 
 
 
-variable "subscription_id"{
+variable "azure_subscription"{
   type=string
 }
-variable "client_id"{
+variable "azure_client"{
   type=string
 }
-variable "client_secret"{
+variable "azure_client_secret"{
   type=string
 }
-variable "tenant_id"{
+variable "azure_tenant_id"{
   type=string
 }
 variable "firstname" {
