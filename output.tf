@@ -7,22 +7,22 @@ value =var.lastname
 }
 
 
-output "restaurent1output"{ 
-value =var.restaurent1
+output "restaurant1output"{ 
+value =var.restaurant1
 }
 
-output "restaurent2output"{
-value =var.restaurent2
+output "restaurant2output"{
+value =var.restaurant2
 }
 
-output "restaurent3output"{ 
-value =var.restaurent3
+output "restaurant3output"{ 
+value =var.restaurant3
 }
 
-output "restaurent4output"{
-value =var.restaurent4
+output "restaurant4output"{
+value =var.restaurant4
 }
 
-output "restaurent5output"{
-value =var.restaurent5
+output "restaurant5output"{
+value =var.restaurant5
 }
