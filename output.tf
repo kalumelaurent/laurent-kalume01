@@ -28,5 +28,5 @@ value =var.restaurant5
 }
 
 output "listoffruits"{
-value =var.listofftruits
+value =var.listoffruits
 }
