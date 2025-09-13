@@ -26,3 +26,7 @@ value =var.restaurant4
 output "restaurant5output"{
 value =var.restaurant5
 }
+
+output "listoffruits"{
+value =var.listofftruits
+}
