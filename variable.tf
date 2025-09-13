@@ -20,19 +20,6 @@ type=string
 default="laurent"
 }
 
-
-variable "subscription_id"{
-  type=string
-}
-variable "client_id"{
-  type=string
-}
-variable "client_secret"{
-  type=string
-}
-variable "tenant_id"{
-  type=string
-}
 variable "restaurant1" {
 type=string
 default="kfc"
