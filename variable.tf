@@ -45,3 +45,7 @@ type=string
 default="harvys"
 }
 
+variable "listoffruits"{
+type=list(string)
+default=["banana" , "poteto" , "tomato"]
+}
