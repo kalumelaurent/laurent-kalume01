@@ -34,3 +34,7 @@ value =var.listoffruits
 output "Favorite_top_list_of_each_things"{
 value =var.Favorite_top_list_of_each_things
 }
+
+output "application_name" {
+value =local.full_name
+}
