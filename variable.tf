@@ -61,9 +61,14 @@ default = "myapp"
 }
 variable "items" {
   type    = list(string)
-  default = ["football","basketball","gaming","badminton","food"]
+  default = ["one", "two", "three"]
 }
 variable "server_name" {
   type    = string
   default = "app-prod-01"
+}
+
+variable "items2" {
+  type    = list(string)
+  default = ["football","basketball","gaming","badminton","food"]
 }
