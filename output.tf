@@ -31,6 +31,6 @@ output "listoffruits"{
 value =var.listoffruits
 }
 
-output ""{
-value =var.listoffruits
+output "Favorite_top_list_of_each_things"{
+value =var.Favorite_top_list_of_each_things
 }
