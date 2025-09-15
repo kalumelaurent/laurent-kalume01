@@ -40,5 +40,5 @@ value =local.full_name
 }
 
 output "csv_items" {
-value = value = join(",", var.items)
+  value = join(",", var.items)
 }
