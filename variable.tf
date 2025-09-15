@@ -54,3 +54,4 @@ variable "Favorite_top_list_of_each_things"{
 type=list(string)
 default=["workout" , "movies" , "travel" , "songs" ,"affirmations"]
 }
+
