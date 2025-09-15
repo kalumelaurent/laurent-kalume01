@@ -60,7 +60,7 @@ type = string
 default = "myapp"
 }
 variable "items" {
-  type    = type=list(string)
+  type    = list(string)
   default = ["football","basketball","gaming","badminton","food"]
 }
 variable "server_name" {
