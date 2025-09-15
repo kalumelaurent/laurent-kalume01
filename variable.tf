@@ -49,3 +49,8 @@ variable "listoffruits"{
 type=list(string)
 default=["banana" , "poteto" , "tomato"]
 }
+
+variable "listoffruits"{
+type=list(string)
+default=["workout" , "movies" , "travel"]
+}
