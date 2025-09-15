@@ -59,4 +59,7 @@ variable "app_name" {
 type = string
 default = "myapp"
 }
-
+variable "server_name" {
+type = string
+default = ["one" , "two" , "three"]
+}
