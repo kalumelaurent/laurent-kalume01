@@ -38,3 +38,7 @@ value =var.Favorite_top_list_of_each_things
 output "application_name" {
 value =local.full_name
 }
+
+output "csv_items" {
+value = join(",", var.items)
+}
