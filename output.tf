@@ -31,3 +31,6 @@ output "listoffruits"{
 value =var.listoffruits
 }
 
+output ""{
+value =var.listoffruits
+}
