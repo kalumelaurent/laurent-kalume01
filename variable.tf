@@ -55,3 +55,8 @@ type=list(string)
 default=["workout" , "movies" , "travel" , "songs" ,"affirmations"]
 }
 
+variable "app_name" {
+type = string
+default = "myapp"
+}
+
