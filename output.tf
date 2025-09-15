@@ -46,6 +46,6 @@ output "server_name_parts" {
   value = split("-", var.server_name)
 }
 
-output "csv_items2" {
+output "csv_items1" {
   value = join(",", var.items)
 }
