@@ -59,7 +59,5 @@ output "first_word" {
   value = local.first_word # "Inception"
 }
 
-variable "phrase" {
-  default = "InceptionMovie"
-}
+
 
