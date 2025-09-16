@@ -49,8 +49,7 @@ output "server_name_parts" {
 output "csv_items1" {
   value = join(",", var.items)
 }
-output "movie_lower" {
-value = "inception"
+
 
 output "replaced_string" {
   value = local.replaced 
