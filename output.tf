@@ -59,3 +59,6 @@ output "first_word" {
   value = local.first_word # "Inception"
 }
 
+output "citation_modifiee" {
+  value = local.citation_hash
+}
