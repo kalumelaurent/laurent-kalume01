@@ -76,3 +76,4 @@ variable "items1" {
 variable "movie" {
   default = "Inception"
 }
+
