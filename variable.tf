@@ -72,3 +72,7 @@ variable "items1" {
   type    = list(string)
   default = ["one", "two", "three"]
 }
+
+variable "movie" {
+  default = "Inception"
+}
