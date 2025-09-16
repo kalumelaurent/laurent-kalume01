@@ -51,3 +51,7 @@ output "csv_items1" {
 }
 output "movie_lower" {
 value = "inception"
+
+output "replaced_string" {
+  value = local.replaced 
+}
