@@ -73,7 +73,7 @@ variable "items1" {
   default = ["one", "two", "three"]
 }
 
-variable "movie" {
-  default = "Inception"
+variable "original" {
+  default = "Hello MCIT World"
 }
 
