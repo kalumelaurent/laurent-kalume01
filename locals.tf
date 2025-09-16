@@ -8,3 +8,7 @@ locals {
 locals {
   first_word = substr(var.phrase, 0, 9) # start at index 0, length 9
 }
+
+locals {
+  citation_hash = replace(var.citation, " ", "#")
+}
