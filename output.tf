@@ -62,3 +62,4 @@ output "first_word" {
 variable "phrase" {
   default = "InceptionMovie"
 }
+
