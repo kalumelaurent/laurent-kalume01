@@ -55,3 +55,4 @@ value = "inception"
 output "replaced_string" {
   value = local.replaced 
 }
+
