@@ -85,3 +85,4 @@ variable "phrase" {
 variable "citation" {
 type = string
   default = "Une nation qui produit de jour en jour des hommes stupides achète à crédit sa propre mort spirituelle"
+}
