@@ -55,3 +55,6 @@ output "replaced_string" {
   value = local.replaced 
 }
 
+output "first_word" {
+  value = local.first_word # "Inception"
+}
