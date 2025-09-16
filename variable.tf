@@ -77,3 +77,7 @@ variable "original" {
   default = "Hello MCIT World"
 }
 
+
+variable "phrase" {
+  default = "InceptionMovie"
+}
