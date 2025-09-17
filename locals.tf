@@ -25,3 +25,8 @@ locals {
   evens   = [for n in var.nums : n if n % 2 == 0]
   squares = [for n in local.evens : n * n]
 }
+
+locals {
+  unique_sorted = sort(distinct(var.items))
+  csv           = join(",", local.unique_sorted)
+}
