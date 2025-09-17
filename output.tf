@@ -94,10 +94,6 @@ output "labels_upper" {
 }
 
 
-output "length_histogram" {
-  value = local.histogram
-}
-
 
 output "length_histogram" {
   value = local.histogram
