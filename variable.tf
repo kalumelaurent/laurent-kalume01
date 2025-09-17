@@ -113,10 +113,6 @@ variable "raw_scores" {
   default = ["alice:90", "bob:75", "carol:85"]
 }
 
-variable "usernames" {
-  type = list(string)
-  default = ['alice", "bob", "carol"]
-}
 
 
 variable "domain" {
@@ -133,4 +129,15 @@ variable "labels" {
 variable "mots" {
   type    = list(string)
   default = ["hi", "cat", "car", "tree", "hi", "car"]
+}
+
+
+variable "usernames" {
+  type = list(string)
+  default = ['alice", "bob", "carol"]
+}
+
+variable "domain" {
+  type = string
+  default = "example.com"
 }
