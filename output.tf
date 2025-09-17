@@ -92,3 +92,8 @@ output "emails" {
 output "labels_upper" {
   value = local.labels_upper
 }
+
+
+output "length_histogram" {
+  value = local.histogram
+}
