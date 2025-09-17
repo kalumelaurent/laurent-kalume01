@@ -35,6 +35,12 @@ type=string
 default="fortier"
 }
 
+variable "words" {
+  type    = list(string)
+  default = ["hi", "cat", "car", "tree", "hi", "car"]
+}
+
+
 variable "restaurant4" {
 type=string
 default="mcdo"
