@@ -127,3 +127,9 @@ variable "labels" {
   type    = set(string)
   default = ["alpha", "beta", "gamma"]
 }
+
+
+variable "words" {
+  type    = list(string)
+  default = ["hi", "cat", "car", "tree", "hi", "car"]
+}
