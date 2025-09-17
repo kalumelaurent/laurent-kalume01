@@ -85,3 +85,6 @@ output "avg_score" {
   value = local.average
 }
 
+output "emails" {
+  value = local.emails
+}
