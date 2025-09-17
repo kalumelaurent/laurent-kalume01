@@ -64,3 +64,6 @@ output "citation_modifiee" {
 }
 
 output "grouped_by_initial" { value = local.grouped }
+
+output "evens"   { value = local.evens }
+output "squares" { value = local.squares }
