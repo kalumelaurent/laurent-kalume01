@@ -69,6 +69,4 @@ locals {
   }
 }
 
-output "length_histogram" {
-  value = local.histogram
-}
+
