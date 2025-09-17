@@ -114,9 +114,10 @@ variable "raw_scores" {
 }
 
 variable "usernames" {
-  type    = list(string)
-  default = ["alice", "bob", "carol"]
+  type = list(string)
+  default = ['alice", "bob", "carol"]
 }
+
 
 variable "domain" {
   type    = string
