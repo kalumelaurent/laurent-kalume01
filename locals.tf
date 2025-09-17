@@ -51,9 +51,6 @@ locals {
 }
 
 
-locals {
-  emails = { for u in var.usernames : u => "${u}@${var.domain}" }
-}
 
 locals {
   labels_upper = toset([for s in var.labels : upper(s)])
@@ -68,4 +65,9 @@ locals {
   locals {
   average = length(local.score_pairs) == 0 ? 0 :
             sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
+}
+
+
+locals {
+  emails = (for u in var.usernames : u => "${u)@$(var.domain}" }
 }
