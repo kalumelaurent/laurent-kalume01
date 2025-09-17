@@ -129,7 +129,7 @@ variable "labels" {
 }
 
 
-variable "words" {
+variable "mots" {
   type    = list(string)
   default = ["hi", "cat", "car", "tree", "hi", "car"]
 }
