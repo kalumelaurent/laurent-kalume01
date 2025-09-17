@@ -84,3 +84,4 @@ output "scores_map" {
 output "avg_score" {
   value = local.average
 }
+
