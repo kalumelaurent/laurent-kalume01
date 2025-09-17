@@ -75,3 +75,12 @@ output "unique_sorted" {
 output "csv" {
   value = local.csv
 }
+
+
+output "scores_map" {
+  value = local.scores_map
+}
+
+output "avg_score" {
+  value = local.average
+}
