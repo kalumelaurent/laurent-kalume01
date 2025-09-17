@@ -67,3 +67,11 @@ output "grouped_by_initial" { value = local.grouped }
 
 output "evens"   { value = local.evens }
 output "squares" { value = local.squares }
+
+output "unique_sorted" {
+  value = local.unique_sorted
+}
+
+output "csv" {
+  value = local.csv
+}
