@@ -116,3 +116,8 @@ variable "domain" {
   type    = string
   default = "example.com"
 }
+
+variable "labels" {
+  type    = set(string)
+  default = ["alpha", "beta", "gamma"]
+}
