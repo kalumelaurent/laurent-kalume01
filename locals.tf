@@ -65,8 +65,7 @@ locals {
 locals {
   lengths_unique = toset([for w in var.words : length(w)])
 
-  histogram = {
-    for L in local.lengths_unique :
-    tostring(L) => length([for w in var.words : w if length(w) == L])
-  }
+  locals {
+  average = length(local.score_pairs) == 0 ? 0 :
+            sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
 }
