@@ -97,7 +97,7 @@ variable "nums" {
   default = [1, 2, 3, 4, 5, 6]
 }
 
-variable "items" {
+variable "items_17_sept" {
   type    = list(string)
   default = ["b", "a", "c", "a", "b"]
 }
