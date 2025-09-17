@@ -30,3 +30,22 @@ locals {
   unique_sorted = sort(distinct(var.items))
   csv           = join(",", local.unique_sorted)
 }
+
+
+
+locals {
+  # Transformer chaque élément string en un objet avec name et score (number)
+  score_pairs = [
+    for s in var.raw_scores : {
+      name  = split(":", s)[0]
+      score = tonumber(split(":", s)[1])
+    }
+  ]
+
+  # Construire la map nom => score
+  scores_map = { for p in local.score_pairs : p.name => p.score }
+
+  # Calculer la moyenne des scores
+  average = length(local.score_pairs) == 0 ? 0 :
+    sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
+}
