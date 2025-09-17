@@ -62,3 +62,5 @@ output "first_word" {
 output "citation_modifiee" {
   value = local.citation_hash
 }
+
+output "grouped_by_initial" { value = local.grouped }
