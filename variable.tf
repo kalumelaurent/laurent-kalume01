@@ -86,3 +86,9 @@ variable "citation" {
 type = string
   default = "Une nation qui produit de jour en jour des hommes stupides achète à crédit sa propre mort spirituelle"
 }
+
+variable "names" {
+  type    = list(string)
+  default = ["amy", "adam", "bob", "brian", "carol"]
+}
+
