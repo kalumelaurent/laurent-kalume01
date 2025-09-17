@@ -58,3 +58,14 @@ locals {
 locals {
   labels_upper = toset([for s in var.labels : upper(s)])
 }
+
+
+
+locals {
+  lengths_unique = toset([for w in var.words : length(w)])
+  histogram = {
+    for L in local.lengths_unique :
+    tostring(L) => length([for w in var.words : w if length(w) == L])
+  }
+}
+
