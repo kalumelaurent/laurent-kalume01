@@ -85,9 +85,6 @@ output "avg_score" {
   value = local.average
 }
 
-output "emails" {
-  value = local.emails
-}
 
 output "labels_upper" {
   value = local.labels_upper
@@ -97,4 +94,8 @@ output "labels_upper" {
 
 output "length_histogram" {
   value = local.histogram
+}
+
+output "emails" {
+  value = local.emails
 }
