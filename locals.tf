@@ -20,3 +20,8 @@ locals {
     i => [for n in var.names : n if substr(n, 0, 1) == i]
   }
 }
+
+locals {
+  evens   = [for n in var.nums : n if n % 2 == 0]
+  squares = [for n in local.evens : n * n]
+}
