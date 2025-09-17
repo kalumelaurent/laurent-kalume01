@@ -95,3 +95,4 @@ variable "names" {
 variable "nums" {
   type    = list(number)
   default = [1, 2, 3, 4, 5, 6]
+}
