@@ -86,10 +86,6 @@ output "avg_score" {
 }
 
 
-output "labels_upper" {
-  value = local.labels_upper
-}
-
 
 output "emails" {
   value = local.emails
