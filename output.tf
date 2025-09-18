@@ -68,6 +68,7 @@ output "grouped_by_initial" { value = local.grouped }
 output "evens"   { value = local.evens }
 output "squares" { value = local.squares }
 
+# Output affichant la liste triée et dédoublonnée
 output "unique_sorted" {
   value = local.unique_sorted
 }
