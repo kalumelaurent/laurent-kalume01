@@ -35,6 +35,7 @@ locals {
 
 locals {
   # Transformer chaque élément string en un objet avec name et score (number)
+  # l’exercice apprend à manipuler et fiabiliser des données dans Terraform 
   score_pairs = [
     for s in var.raw_scores : {
       name  = split(":", s)[0]
