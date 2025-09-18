@@ -117,3 +117,7 @@ output "user_email" {
   description = "L'adresse email générée pour l'utilisateur"
   value       = local.email
 }
+
+output "email" {
+  value = module.user_creation.user_email
+}
