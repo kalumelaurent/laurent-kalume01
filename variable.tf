@@ -120,16 +120,17 @@ variable "labels" {
 }
 
 
+# Déclare une liste de noms d'utilisateur à utiliser pour générer les adresses email
 variable "usernames" {
   type    = list(string)
   default = ["alice", "bob", "carol"]
 }
 
+# Déclare le domaine à utiliser pour construire les emails
 variable "domain" {
   type    = string
   default = "example.com"
 }
-
 
 
 
