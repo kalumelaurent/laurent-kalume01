@@ -148,7 +148,7 @@ variable "words2" {
 }
 
 # Variable pour le nom de l'utilisateur - identifie clairement l'utilisateur
-variable "username2_kalume" {
+variable "username2" {
   description = "Le nom unique de l'utilisateur"
   type        = string
 }
@@ -157,7 +157,7 @@ variable "username2_kalume" {
 variable "email_domain" {
   description = "Le domaine email pour l'utilisateur"
   type        = string
-  default     = "kalumelaurent0123.com"
+  default     = "kalume"
 }
 
 
