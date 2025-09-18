@@ -104,3 +104,9 @@ value = local.average2
 output "labels_upper" {
   value = local.labels_upper
 }
+
+# Output affichant l'histogramme des longueurs
+# cette organisation rend votre code plus lisible, facile à maintenir et à comprendre pour une équipe
+output "length_histogram" {
+  value = local.histogram
+}
