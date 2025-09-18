@@ -65,7 +65,9 @@ output "citation_modifiee" {
 
 output "grouped_by_initial" { value = local.grouped }
 
+# Affiche la liste des nombres pairs
 output "evens"   { value = local.evens }
+# Affiche la liste des carrés des nombres pairs
 output "squares" { value = local.squares }
 
 # Output affichant la liste triée et dédoublonnée
