@@ -52,13 +52,6 @@ scores_map = { for p in local.score_pairs : p.name => p.score }
 
 
 locals {
-  labels_upper = toset([for s in var.labels : upper(s)])
-}
-
-
-
-
-locals {
   lengths_unique = toset([for w in var.words : length(w)])
 
   locals {
