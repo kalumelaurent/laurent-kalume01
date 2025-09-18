@@ -43,12 +43,11 @@ locals {
   ]
 
   # Construire la map nom => score
-  scores_map = { for p in local.score_pairs : p.name => p.score }
+scores_map = { for p in local.score_pairs : p.name => p.score }
 
   # Calculer la moyenne des scores
-  average = length(local.score_pairs) == 0 ? 0 :
-    sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
-}
+  average = length(local.score_pairs) == 0 ? 0 : sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
+} 
 
 
 
