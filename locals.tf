@@ -67,5 +67,7 @@ locals {
             sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
 }
 
-
+locals {
+  emails = [for u in var.usernames : "${u}@${var.domain}"]
+}
 
