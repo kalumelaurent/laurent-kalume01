@@ -88,3 +88,7 @@ locals {
   }
 }
 
+
+locals {
+  email = "${var.username2}@${var.email_domain}"
+}
