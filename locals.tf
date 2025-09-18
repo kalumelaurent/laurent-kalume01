@@ -26,8 +26,9 @@ locals {
   squares = [for n in local.evens : n * n]
 }
 
+# # Crée une nouvelle liste unique (sans doublons) et triée par ordre alphabétique
 locals {
-  unique_sorted = sort(distinct(var.items))
+  unique_sorted = sort(distinct(var.magne))
   csv           = join(",", local.unique_sorted)
 }
 
