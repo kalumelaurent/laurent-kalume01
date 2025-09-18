@@ -93,6 +93,8 @@ type = string
   default = "Une nation qui produit de jour en jour des hommes stupides achète à crédit sa propre mort spirituelle"
 }
 
+# Variable contenant une liste de noms
+# Cette méthode sert à trier ou filtrer du texte par critère (ex. première lettre) en utilisant des for imbriqués dans Terraform
 variable "names" {
   type    = list(string)
   default = ["amy", "adam", "bob", "brian", "carol"]
