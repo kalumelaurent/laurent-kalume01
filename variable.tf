@@ -113,6 +113,7 @@ variable "raw_scores" {
   default = ["alice:90", "bob:75", "carol:85"]
 }
 
+# Déclaration de la variable labels contenant un ensemble de chaînes à convertir en majuscules
 variable "labels" {
   type    = set(string)
   default = ["alpha", "beta", "gamma"]
