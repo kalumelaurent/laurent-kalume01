@@ -84,7 +84,7 @@ locals {
   # Histogramme map: longueur (clé) => nombre de mots ayant cette longueur (valeur)
   histogram = {
     for L in local.lengths_unique :
-    tostring(L) => length([for w in var.words2 : w if length(w) == L])
+    tostring(L) => length([for w in var.words : w if length(w) == L])
   }
 }
 
