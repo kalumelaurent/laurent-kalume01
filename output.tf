@@ -86,7 +86,7 @@ output "avg_score" {
 }
 
 
-
+# Exporte le map des emails générés 
 output "emails" {
   value = local.emails
 }
