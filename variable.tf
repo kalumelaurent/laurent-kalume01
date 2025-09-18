@@ -126,14 +126,8 @@ variable "labels" {
 }
 
 
-variable "mots" {
-  type    = list(string)
-  default = ["hi", "cat", "car", "tree", "hi", "car"]
-}
 
 
 
-variable "domain" {
-  type = string
-  default = "example.com"
-}
+
+
