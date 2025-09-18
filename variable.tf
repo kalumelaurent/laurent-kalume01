@@ -147,5 +147,17 @@ variable "words2" {
   default = ["hi", "cat", "car", "tree", "hi", "car"]
 }
 
+# Variable pour le nom de l'utilisateur - identifie clairement l'utilisateur
+variable "username2" {
+  description = "Le nom unique de l'utilisateur"
+  type        = string
+}
+
+# Variable pour le domaine de l’email - facilite la gestion des emails dans une entreprise ou organisation
+variable "email_domain" {
+  description = "Le domaine email pour l'utilisateur"
+  type        = string
+  default     = "kalumelaurent0123.com"
+}
 
 
