@@ -58,6 +58,7 @@ locals {
   average2 = length(local.score_pairs) == 0 ? 0 : sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
 }
 
+# Construit un map des adresses email à partir des noms d'utilisateur et du domaine
 locals {
   emails = [for u in var.usernames : "${u}@${var.domain}"]
 }
