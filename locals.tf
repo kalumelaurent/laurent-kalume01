@@ -13,6 +13,7 @@ locals {
   citation_hash = replace(var.citation, " ", "#")
 }
 
+# Extraire l'ensemble des initiales (premières lettres) uniques des noms
 locals {
   initials = toset([for n in var.names : substr(n, 0, 1)])
   grouped  = {
