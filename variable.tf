@@ -132,10 +132,6 @@ variable "mots" {
 }
 
 
-variable "usernames" {
-  type = list(string)
-  default = ['alice", "bob", "carol"]
-}
 
 variable "domain" {
   type = string
