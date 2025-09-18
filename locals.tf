@@ -87,3 +87,10 @@ locals {
     tostring(L) => length([for w in var.words2 : w if length(w) == L])
   }
 }
+
+locals {
+  # Construction de l'email en concaténant le nom d'utilisateur et le domaine
+  # Variable pour le nom de l'utilisateur - identifie clairement l'utilisateur
+  # Variable pour le domaine de l’email - facilite la gestion des emails dans une entreprise ou organisation
+  email = "${var.username}@${var.email_domain}"
+}
