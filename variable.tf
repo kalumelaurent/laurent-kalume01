@@ -108,6 +108,8 @@ variable "items_17_sept" {
   default = ["b", "a", "c", "a", "b"]
 }
 
+# Variable contenant une liste de chaînes au format "nom:score"
+# l’exercice apprend à manipuler et fiabiliser des données dans Terraform"
 variable "raw_scores" {
   type    = list(string)
   default = ["alice:90", "bob:75", "carol:85"]
