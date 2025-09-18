@@ -117,3 +117,8 @@ output "kalume_email" {
   description = "L'adresse email générée pour l'utilisateur"
   value       = local.email
 }
+
+#output du module 
+output "email" {
+  value = module.example_user.user_email
+}
