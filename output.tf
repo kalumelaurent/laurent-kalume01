@@ -1,3 +1,4 @@
+
 output "firstoutput"{ 
 value =var.firstname
 }
@@ -109,4 +110,10 @@ output "labels_upper" {
 # cette organisation rend votre code plus lisible, facile à maintenir et à comprendre pour une équipe
 output "length_histogram" {
   value = local.histogram
+}
+
+# Output pour exposer l'adresse email créée
+output "kalume_email" {
+  description = "L'adresse email générée pour l'utilisateur"
+  value       = local.email
 }
