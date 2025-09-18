@@ -98,6 +98,8 @@ variable "names" {
   default = ["amy", "adam", "bob", "brian", "carol"]
 }
 
+# Variable contenant une liste de nombres
+# Écris un filtre Terraform avec for et if pour garder seulement les nombres pairs
 variable "nums" {
   type    = list(number)
   default = [1, 2, 3, 4, 5, 6]
