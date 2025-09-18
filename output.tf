@@ -62,7 +62,7 @@ output "first_word" {
 output "citation_modifiee" {
   value = local.citation_hash
 }
-
+# Sortie affichant la map des noms groupés par initiale
 output "grouped_by_initial" { value = local.grouped }
 
 # Affiche la liste des nombres pairs
