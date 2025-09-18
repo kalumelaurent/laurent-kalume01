@@ -76,7 +76,8 @@ output "csv" {
   value = local.csv
 }
 
-
+# Sortie affichant la map des scores
+# l’exercice apprend à manipuler et fiabiliser des données dans Terraform
 output "scores_map" {
   value = local.scores_map
 }
