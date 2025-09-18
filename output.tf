@@ -96,5 +96,5 @@ output "emails" {
 }
 
 output "average2"{
-value = local.avarage2
+value = local.average2
 }
