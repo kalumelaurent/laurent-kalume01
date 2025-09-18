@@ -96,6 +96,3 @@ output "length_histogram" {
   value = local.histogram
 }
 
-output "emails" {
-  value = local.emails
-}
