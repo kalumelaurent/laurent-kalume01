@@ -157,7 +157,7 @@ variable "username2" {
 variable "email_domain" {
   description = "Le domaine email pour l'utilisateur"
   type        = string
-  default     = "kalumelaurent0123.com"
+  default     = "example.com"
 }
 
 
