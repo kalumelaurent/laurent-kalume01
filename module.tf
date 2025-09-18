@@ -1,4 +1,4 @@
-module "new_user" {
+module "username2" {
   source    = "./modules/user"
   username2 = "alice"
 }
