@@ -113,13 +113,6 @@ variable "raw_scores" {
   default = ["alice:90", "bob:75", "carol:85"]
 }
 
-
-
-variable "domain" {
-  type    = string
-  default = "example.com"
-}
-
 variable "labels" {
   type    = set(string)
   default = ["alpha", "beta", "gamma"]
