@@ -95,6 +95,8 @@ output "average2"{
 value = local.average2
 }
 
+
+# Export du set transformé en output
 output "labels_upper" {
   value = local.labels_upper
 }
