@@ -148,7 +148,7 @@ variable "words2" {
 }
 
 # Variable pour le nom de l'utilisateur - identifie clairement l'utilisateur
-variable "new_user" {
+variable "username2" {
   description = "Le nom unique de l'utilisateur"
   type        = string
 }
