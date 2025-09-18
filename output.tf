@@ -94,3 +94,7 @@ output "labels_upper" {
 output "emails" {
   value = local.emails
 }
+
+output "average2"{
+value = local.avarage2
+}
