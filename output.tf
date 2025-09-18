@@ -112,18 +112,3 @@ output "length_histogram" {
   value = local.histogram
 }
 
-# Output pour exposer l'adresse email créée
-output "kalume_email" {
-  description = "L'adresse email générée pour l'utilisateur"
-  value       = local.email
-}
-
-#output du module 
-output "email" {
-  value = module.example_user.user_email
-}
-
-output "user_email" {
-  description = "kalumelaurent0123@gmail.com"
-  value       = local.email
-}
