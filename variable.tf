@@ -126,7 +126,10 @@ variable "labels" {
 }
 
 
-
+variable "usernames" {
+  type    = list(string)
+  default = ["alice", "bob", "carol"]
+}
 
 
 
