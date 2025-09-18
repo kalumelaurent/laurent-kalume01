@@ -63,7 +63,7 @@ locals {
   emails = [for u in var.usernames : "${u}@${var.domain}"]
 }
 
-
+# labels_upper stocke la version en majuscules de chaque label
 locals {
   labels_upper = toset([for s in var.labels : upper(s)])
 }
