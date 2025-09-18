@@ -104,7 +104,7 @@ variable "nums" {
 }
 
 # Déclare une variable contenant une liste de chaînes avec des doublons
-variable "items" {
+variable "item2" {
   type    = list(string)
   default = ["b", "a", "c", "a", "b"]
 
