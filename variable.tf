@@ -131,6 +131,11 @@ variable "usernames" {
   default = ["alice", "bob", "carol"]
 }
 
+variable "domain" {
+  type    = string
+  default = "example.com"
+}
+
 
 
 
