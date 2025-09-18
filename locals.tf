@@ -68,6 +68,4 @@ locals {
 }
 
 
-locals {
-  emails = (for u in var.usernames : u => "${u)@$(var.domain}" }
-}
+
