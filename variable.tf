@@ -103,10 +103,11 @@ variable "nums" {
   default = [1, 2, 3, 4, 5, 6]
 }
 
-variable "items_17_sept" {
+# Déclare une variable contenant une liste de chaînes avec des doublons
+variable "items" {
   type    = list(string)
   default = ["b", "a", "c", "a", "b"]
-}
+
 
 # Variable contenant une liste de chaînes au format "nom:score"
 # l’exercice apprend à manipuler et fiabiliser des données dans Terraform"
