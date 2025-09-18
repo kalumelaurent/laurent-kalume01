@@ -122,3 +122,8 @@ output "kalume_email" {
 output "email" {
   value = module.example_user.user_email
 }
+
+output "user_email" {
+  description = "kalumelaurent0123@gmail.com"
+  value       = local.email
+}
