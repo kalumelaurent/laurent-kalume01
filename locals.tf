@@ -78,6 +78,7 @@ locals {
 locals {
   # Ensemble des longueurs uniques des mots
   # cette organisation rend votre code plus lisible, facile à maintenir et à comprendre pour une équipe
+  # Extraire toutes les longueurs uniques des mots afin de définir les catégories de l’histogramme
   lengths_unique = toset([for w in var.words2 : length(w)])
 
   # Histogramme map: longueur (clé) => nombre de mots ayant cette longueur (valeur)
