@@ -140,5 +140,12 @@ variable "domain" {
   default = "example.com"
 }
 
+# Variable contenant une liste de mots
+# ette organisation rend votre code plus lisible, facile à maintenir et à comprendre pour une équipe
+variable "words2" {
+  type    = list(string)
+  default = ["hi", "cat", "car", "tree", "hi", "car"]
+}
+
 
 
