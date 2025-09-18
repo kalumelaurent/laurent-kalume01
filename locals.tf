@@ -74,3 +74,15 @@ locals {
 locals {
   labels_upper = toset([for s in var.labels : upper(s)])
 }
+
+locals {
+  # Ensemble des longueurs uniques des mots
+  # cette organisation rend votre code plus lisible, facile à maintenir et à comprendre pour une équipe
+  lengths_unique = toset([for w in var.words2 : length(w)])
+
+  # Histogramme map: longueur (clé) => nombre de mots ayant cette longueur (valeur)
+  histogram = {
+    for L in local.lengths_unique :
+    tostring(L) => length([for w in var.words2 : w if length(w) == L])
+  }
+}
