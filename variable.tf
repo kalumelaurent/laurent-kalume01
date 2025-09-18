@@ -107,6 +107,7 @@ variable "nums" {
 variable "magne" {
   type    = list(string)
   default = ["b", "a", "c", "a", "b"]
+}
 
 
 # Variable contenant une liste de chaînes au format "nom:score"
