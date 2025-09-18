@@ -72,7 +72,7 @@ output "squares" { value = local.squares }
 output "unique_sorted" {
   value = local.unique_sorted
 }
-
+# Output affichant la chaîne CSV créée à partir de la liste
 output "csv" {
   value = local.csv
 }
