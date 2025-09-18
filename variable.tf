@@ -141,14 +141,5 @@ variable "domain" {
 }
 
 
-variable "username2" {
-  description = "Le nom unique de l'utilisateur"
-  type        = string
-}
 
-variable "email_domain" {
-  description = "Le domaine email pour l'utilisateur"
-  type        = string
-  default     = "example.com"
-}
 
