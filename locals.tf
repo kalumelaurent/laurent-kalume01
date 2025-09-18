@@ -44,9 +44,11 @@ locals {
   ]
 
   # Construire la map nom => score
+  # l’exercice apprend à manipuler et fiabiliser des données dans Terraform
 scores_map = { for p in local.score_pairs : p.name => p.score }
 
   # Calculer la moyenne des scores
+  # l’exercice apprend à manipuler et fiabiliser des données dans Terraform
   average = length(local.score_pairs) == 0 ? 0 : sum([for p in local.score_pairs : p.score]) / length(local.score_pairs)
 } 
 
