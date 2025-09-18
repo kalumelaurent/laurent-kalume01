@@ -21,6 +21,8 @@ locals {
   }
 }
 
+# Filtre la liste pour ne garder que les nombres pairs
+# Calcule le carré de chaque nombre pair
 locals {
   evens   = [for n in var.nums : n if n % 2 == 0]
   squares = [for n in local.evens : n * n]
