@@ -107,5 +107,5 @@ locals {
   # Cette fonction parcourt la chaîne caractère par caractère en partant de la fin vers le début,
   # ce qui transforme "Hilton" en "notliH"
   # Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
-  hilton_reversed = strrev(var.hotels[0])
+  hilton_reversed = strrev(var.hotels2[0])
 }
