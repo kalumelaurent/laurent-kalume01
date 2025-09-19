@@ -170,3 +170,8 @@ variable "hotels3" {
   default = ["Hilton", "Marriott", "Sheraton", "Hyatt"]
 }
 
+# Variable contenant une liste de noms d'aliments
+# De telles opérations sont utiles pour validations, métriques, ou conditions basées sur des propriétés agrégées
+variable "foods1" {
+  default = ["Pizza", "Burger", "Sushi", "Tacos"]
+}
