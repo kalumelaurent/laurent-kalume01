@@ -120,7 +120,7 @@ locals {
 locals {
   # Calculer la longueur de chaque chaîne dans la liste
   # De telles opérations sont utiles pour validations, métriques, ou conditions basées sur des propriétés agrégées
-  lengths = [for food in var.foods : length(food)]
+  lengths = [for food in var.foods1 : length(food)]
 
   # Additionner toutes les longueurs pour obtenir le total des caractères
   total_characters = sum(local.lengths)
