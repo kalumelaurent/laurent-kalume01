@@ -140,6 +140,10 @@ variable "domain" {
   default = "example.com"
 }
 
-
+# Variable contenant la liste des hôtels
+# C’est utile pour cibler spécifiquement une valeur dans une liste et lui appliquer un traitement particulier, garantissant que l’information importante
+variable "hotels" {
+  default = ["Marriott", "Hilton", "Sheraton", "Hyatt"]
+}
 
 
