@@ -123,3 +123,11 @@ output "hotels_upper" {
 output "formatted_activities" {
   value = local.activities_string
 }
+
+# Utilise la fonction replace pour remplacer "bur" par "cheese" dans "burger".
+# Le résultat sera "cheeseger".
+output "replace_burger" {
+  value = replace("burger", "bur", "cheese")
+  # Ici, la fonction remplace la première sous-chaîne trouvée ("bur") par "cheese",
+  # ce qui transforme "burger" en "cheeseger".
+}
