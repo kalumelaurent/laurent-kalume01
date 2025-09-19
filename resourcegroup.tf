@@ -8,8 +8,7 @@ resource "azurerm_resource_group" "terraformseptember" {
 }
 
 
-En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
-
+# En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
 # Création du groupe de ressources Azure
 resource "azurerm_resource_group" "rg" {
   name     = "${var.project_name}-rg"  # Nom unique basé sur le nom du projet
