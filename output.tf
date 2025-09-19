@@ -153,3 +153,10 @@ output "reversed_hilton" {
 output "hotels_abbreviated" {
   value = local.hotels_abbr
 }
+
+
+# Output affichant le nombre total de caractères dans toutes les chaînes de la liste
+# De telles opérations sont utiles pour validations, métriques, ou conditions basées sur des propriétés agrégées
+output "total_characters_in_foods" {
+  value = local.total_characters
+}
