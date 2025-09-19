@@ -109,3 +109,10 @@ locals {
   # Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
   hilton_reversed = strrev(var.hotels2[0])
 }
+
+locals {
+  # Pour chaque hôtel, on extrait une sous-chaîne des 2 premiers caractères.
+  # La fonction substr prend 3 arguments : la chaîne, la position de départ (0-index), et la longueur
+  # Cette méthode est efficace pour créer des listes transformées en conservant la structure d’origine
+  hotels_abbr = [for h in var.hotels3 : substr(h, 0, 2)]
+}
