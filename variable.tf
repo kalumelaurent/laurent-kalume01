@@ -175,3 +175,23 @@ variable "hotels3" {
 variable "foods1" {
   default = ["Pizza", "Burger", "Sushi", "Tacos"]
 }
+
+
+# Nom du projet, utilisé comme préfixe pour les ressources Azure
+variable "project_name" {
+  type    = string
+  default = "mywebapp"
+}
+
+# Région Azure où les ressources seront déployées
+variable "location" {
+  type    = string
+  default = "canadacentral"
+}
+
+# SKU du plan de service pour l'application (B1 est peu coûteux, P1v3 pour production)
+# En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
+variable "plan_sku_name" {
+  type    = string
+  default = "B1"
+}
