@@ -125,7 +125,8 @@ output "formatted_activities" {
 }
 
 # Utilise la fonction replace pour remplacer "bur" par "cheese" dans "burger".
-# Le résultat sera "cheeseger".
+# Le résultat sera "cheeseger"
+# Cette technique est utile pour modifier dynamiquement des valeurs ou adapter des noms/textes dans vos outputs ou ressources
 output "replace_burger" {
   value = replace("burger", "bur", "cheese")
   # Ici, la fonction remplace la première sous-chaîne trouvée ("bur") par "cheese",
