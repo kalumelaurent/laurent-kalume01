@@ -146,4 +146,8 @@ variable "hotels" {
   default = ["Marriott", "Hilton", "Sheraton", "Hyatt"]
 }
 
-
+# Variable contenant la liste des activités à enchaîner
+# Ce procédé est idéal pour transformer une liste en texte lisible ou en titre dynamique dans mes outputs Terraform
+variable "activities" {
+  default = ["eat", "sleep", "code", "repeat"]
+}
