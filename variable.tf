@@ -157,3 +157,9 @@ variable "activities" {
 variable "foods" {
   default = ["pizza", "burger", "sushi", "tacos"]
 }
+
+# Variable contenant une liste de noms d'hôtels
+# Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
+variable "hotels" {
+  default = ["Hilton", "Sheraton", "Marriott"]
+}
