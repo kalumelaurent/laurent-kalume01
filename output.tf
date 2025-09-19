@@ -132,3 +132,11 @@ output "replace_burger" {
   # Ici, la fonction remplace la première sous-chaîne trouvée ("bur") par "cheese",
   # ce qui transforme "burger" en "cheeseger".
 }
+
+# Utilise la fonction replace avec une expression régulière pour remplacer toutes les voyelles par "*"
+# Le motif /[aeiou]/ indique une voyelle (a, e, i, o ou u)
+output "marriott_vowels_masked" {
+  value = replace("Marriott", "/[aeiou]/", "*")
+  # Cette ligne recherche chaque voyelle dans la chaîne "Marriott"
+  # et la remplace par "*". Résultat : "M*rr**tt"
+}
