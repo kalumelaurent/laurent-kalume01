@@ -116,3 +116,12 @@ locals {
   # Cette méthode est efficace pour créer des listes transformées en conservant la structure d’origine
   hotels_abbr = [for h in var.hotels3 : substr(h, 0, 2)]
 }
+
+locals {
+  # Calculer la longueur de chaque chaîne dans la liste
+  # De telles opérations sont utiles pour validations, métriques, ou conditions basées sur des propriétés agrégées
+  lengths = [for food in var.foods : length(food)]
+
+  # Additionner toutes les longueurs pour obtenir le total des caractères
+  total_characters = sum(local.lengths)
+}
