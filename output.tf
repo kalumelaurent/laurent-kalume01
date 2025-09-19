@@ -117,3 +117,9 @@ output "length_histogram" {
 output "hotels_upper" {
   value = local.hotels_upper
 }
+
+# Output affichant la chaîne formatée avec les flèches
+# Ce procédé est idéal pour transformer une liste en texte lisible ou en titre dynamique dans mes outputs Terraform
+output "formatted_activities" {
+  value = local.activities_string
+}
