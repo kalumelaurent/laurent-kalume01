@@ -94,3 +94,9 @@ locals {
   hotels_upper = [for h in var.hotels : h == "Hyatt" ? upper(h) : h]
 }
 
+
+locals {
+  # On utilise la fonction join pour combiner tous les éléments de la liste en une seule chaîne,
+  # chaque activité étant séparée par " → " afin de recréer la séquence demandée
+  # Ce procédé est idéal pour transformer une liste en texte lisible ou en titre dynamique dans mes outputs Terraform
+  activities_string = join(" → ", var.activities)
