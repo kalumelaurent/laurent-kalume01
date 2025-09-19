@@ -151,3 +151,9 @@ variable "hotels" {
 variable "activities" {
   default = ["eat", "sleep", "code", "repeat"]
 }
+
+# Variable contenant la liste des aliments
+# Cette technique est utile pour modifier dynamiquement des valeurs ou adapter des noms/textes dans vos outputs ou ressources
+variable "foods" {
+  default = ["pizza", "burger", "sushi", "tacos"]
+}
