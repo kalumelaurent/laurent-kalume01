@@ -88,4 +88,9 @@ locals {
   }
 }
 
+locals {
+  # Reconstruit la liste en passant uniquement "Hyatt" en majuscule, les autres restent inchangés
+  # C’est utile pour cibler spécifiquement une valeur dans une liste et lui appliquer un traitement particulier, garantissant que l’information importante
+  hotels_upper = [for h in var.hotels : h == "Hyatt" ? upper(h) : h]
+}
 
