@@ -147,3 +147,9 @@ output "marriott_vowels_masked" {
 output "reversed_hilton" {
   value = local.hilton_reversed
 }
+
+# Output affichant la liste des abréviations des noms d'hôtels
+# Cette méthode est efficace pour créer des listes transformées en conservant la structure d’origine
+output "hotels_abbreviated" {
+  value = local.hotels_abbr
+}
