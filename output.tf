@@ -140,3 +140,10 @@ output "marriott_vowels_masked" {
   # Cette ligne recherche chaque voyelle dans la chaîne "Marriott"
   # et la remplace par "*". Résultat : "M*rr**tt"
 }
+
+
+# Output affichant le résultat de l'inversion de la chaîne "Hilton"
+# Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
+output "reversed_hilton" {
+  value = local.hilton_reversed
+}
