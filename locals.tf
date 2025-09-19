@@ -100,3 +100,4 @@ locals {
   # chaque activité étant séparée par " → " afin de recréer la séquence demandée
   # Ce procédé est idéal pour transformer une liste en texte lisible ou en titre dynamique dans mes outputs Terraform
   activities_string = join(" → ", var.activities)
+}
