@@ -101,3 +101,11 @@ locals {
   # Ce procédé est idéal pour transformer une liste en texte lisible ou en titre dynamique dans mes outputs Terraform
   activities_string = join(" → ", var.activities)
 }
+
+locals {
+  # Utilise la fonction strrev pour inverser la chaîne "Hilton".
+  # Cette fonction parcourt la chaîne caractère par caractère en partant de la fin vers le début,
+  # ce qui transforme "Hilton" en "notliH"
+  # Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
+  hilton_reversed = strrev(var.hotels[0])
+}
