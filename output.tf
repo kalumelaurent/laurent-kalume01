@@ -112,4 +112,8 @@ output "length_histogram" {
   value = local.histogram
 }
 
-
+# Affiche la nouvelle liste avec seulement "Hyatt" en majuscule
+# C’est utile pour cibler spécifiquement une valeur dans une liste et lui appliquer un traitement particulier, garantissant que l’information importante
+output "hotels_upper" {
+  value = local.hotels_upper
+}
