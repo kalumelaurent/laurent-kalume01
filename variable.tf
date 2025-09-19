@@ -163,3 +163,10 @@ variable "foods" {
 variable "hotels2" {
   default = ["Hilton", "Sheraton", "Marriott"]
 }
+
+# Variable contenant la liste des noms d'hôtels
+# Cette méthode est efficace pour créer des listes transformées en conservant la structure d’origine
+variable "hotels" {
+  default = ["Hilton3", "Marriott", "Sheraton", "Hyatt"]
+}
+
