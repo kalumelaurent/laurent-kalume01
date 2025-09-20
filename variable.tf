@@ -214,3 +214,45 @@ variable "activities01" {
   type    = list(string)  # Liste de chaînes de caractères
   default = ["eat", "sleep", "code", "travel", "play"]
 }
+
+
+# Déclaration de variables contenant les Top 5 de chaque catégorie
+variable "fruits" {
+  default = ["Mango", "Strawberry", "Pineapple", "Banana", "Watermelon"]
+}
+
+variable "movies" {
+  default = ["Inception", "Interstellar", "The Matrix", "Gladiator", "The Dark Knight"]
+}
+
+variable "travel" {
+  default = ["Japan", "Italy", "Greece", "Iceland", "Australia"]
+}
+
+variable "workout" {
+  default = ["Push-ups", "Squats", "Plank", "Deadlifts", "Running"]
+}
+
+variable "foods" {
+  default = ["Pizza", "Sushi", "Tacos", "Pasta", "Burger"]
+}
+
+variable "colors" {
+  default = ["Blue", "Black", "Red", "Green", "Purple"]
+}
+
+variable "songs" {
+  default = ["Morning Vibes", "Endless Skies", "Dream Flow", "Ocean Lights", "Silent Echo"]
+}
+
+variable "emojis" {
+  default = ["😂", "❤️", "🔥", "👍", "🌍"]
+}
+
+variable "affirmations" {
+  default = ["I am capable", "I am strong", "I attract positivity", "I am grateful", "I keep growing"]
+}
+
+variable "ice_cream" {
+  default = ["Vanilla", "Chocolate", "Strawberry", "Mint", "Cookies & Cream"]
+}
