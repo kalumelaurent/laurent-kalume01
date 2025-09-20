@@ -204,6 +204,6 @@ variable "activities1" {
 }
 
 # Variable contenant la liste des aliments
-variable "foods" {
+variable "foods9" {
   default = ["Pizza", "Burger", "Sushi", "Tacos", "Pasta"]
 }
