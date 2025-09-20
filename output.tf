@@ -194,6 +194,6 @@ output "premieres_lettres_upper" {
 #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
 #créer l’abréviation à partir des premières lettres de chaque élément en majuscule 
 # Afficher l'abréviation finale
-output "abbreviation" {
+output "abbreviations" {
   value = local.abbreviation
 }
