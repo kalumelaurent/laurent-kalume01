@@ -202,3 +202,8 @@ variable "plan_sku_name" {
 variable "activities1" {
   default = ["eat", "sleep", "code", "travel", "play"]
 }
+
+# Variable contenant la liste des aliments
+variable "foods" {
+  default = ["Pizza", "Burger", "Sushi", "Tacos", "Pasta"]
+}
