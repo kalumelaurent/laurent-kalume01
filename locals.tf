@@ -127,12 +127,16 @@ locals {
 }
 
 locals {
-  # On utilise une compréhension de liste pour tirer la première lettre de chaque activité
-  initials2 = [for activity in var.activite : substr(activity, 0, 1)]
+  # Étape 1 : Extraire la première lettre de chaque mot
+  # Ici on utilise une boucle "for" pour créer une nouvelle liste
+  #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
+#créer l’abréviation à partir des premières lettres de chaque élément
+  premieres_lettres = [for activity in var.activite : substr(activity, 0, 1)]
+  # substr(activity, 0, 1) prend le premier caractère de chaque mot
 
-  # On rejoint les lettres en une seule chaîne pour obtenir l'acronyme désiré
-  # Cette manipulation est importante en Terraform pour générer de façon automatique des noms, des identifiants
-  abbreviation = join("", local.initials)
+  # Étape 2 : Combiner toutes les premières lettres en une seule chaîne
+  # join("", ...) concatène tous les éléments de la liste sans espace
+  abbreviation = join("", local.premieres_lettres)
 }
 
 
@@ -157,3 +161,5 @@ locals {
   index_max = index(local.longueurs, local.max_longueur)
   nom_plus_long = var.nouriture[local.index_max]
 }
+
+
