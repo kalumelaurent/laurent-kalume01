@@ -197,8 +197,3 @@ variable "plan_sku_name" {
 }
 
 
-# Variable contenant la liste des aliments
-# On obtient l’aliment le plus long avec une compréhension de liste filtrée puis on prend le premier (prend en compte la présence de plusieurs aliments de même longueur)
-variable "foods4" {
-  default = ["Pizza", "Burger", "Sushi", "Tacos", "Pasta"]
-}
