@@ -160,3 +160,10 @@ output "hotels_abbreviated" {
 output "total_characters_in_foods" {
   value = local.total_characters
 }
+
+
+# Output affichant le nom de l'aliment le plus long
+# 	On obtient l’aliment le plus long avec une compréhension de liste filtrée puis on prend le premie
+output "longest_food_name" {
+  value = local.longest_food
+}
