@@ -138,12 +138,12 @@ locals {
 
 
 locals {
-  # On construit une liste avec la longueur de chaque aliment
-  food_lengths = [for food in var.foods : length(food)]
+  # Calcule la longueur de chaque nom de nourriture
+  longueurs = [for aliment in var.nouriture : length(aliment)]
 
-  # On trouve la longueur maximale dans la liste
-  longest_length = max(local.food_lengths)
+  # Trouve la plus grande longueur
+  max_longueur = max(local.longueurs)
 
-  # On sélectionne le premier aliment qui a cette longueur maximale
-  longest_food = [for food in var.foods : food if length(food) == local.longest_length][0]
+  # Sélectionne le nom dont la longueur est maximale (si égalité, on prend le 1er)
+  nom_plus_long = [for aliment in var.nouriture : aliment if length(aliment) == local.max_longueur][0]
 }
