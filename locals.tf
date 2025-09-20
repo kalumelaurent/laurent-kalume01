@@ -146,9 +146,14 @@ locals {
     length(var.nouriture[4])
   ]
 
- 
-  max_longueur = reduce(local.longueurs, 0, max)
+  max_longueur = max(
+    local.longueurs[0],
+    local.longueurs[1],
+    local.longueurs[2],
+    local.longueurs[3],
+    local.longueurs[4]
+  )
 
-  index_max   = index(local.longueurs, local.max_longueur)
+  index_max = index(local.longueurs, local.max_longueur)
   nom_plus_long = var.nouriture[local.index_max]
 }
