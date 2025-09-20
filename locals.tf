@@ -159,7 +159,7 @@ locals {
   ]
 
   # Trouve la longueur maximale
-  max_longueur = max(local.longueurs)
+  max_longueurss = max(local.longueurs)
 
   # Cherche l'index de l'élément qui a la longueur maximale
   index_max = index(local.longueurs, local.max_longueur)
