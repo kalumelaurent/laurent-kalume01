@@ -138,19 +138,13 @@ locals {
 
 
 locals {
-  # On calcule la longueur de chaque nom en utilisant length()
-  longueurs = [for aliment in var.nouriture : length(aliment)]
+  # Affiche chaque élément du tuple avec son index sous forme de liste de chaînes formatées
+  nouriture_avec_index = [
+    for i in range(length(var.nouriture)) : "${i} : ${var.nouriture[i]}"
+  ]
 
-  # On trouve la plus grande longueur de nom dans la liste
-  max_longueur = max(local.longueurs)
-
-  # On extrait le/les noms correspondant à cette longueur maximale (prend le premier si égalité)
-  nom_plus_long = [for aliment in var.nouriture : aliment if length(aliment) == local.max_longueur][0]
-}
-
-locals {
-  # Calcule la longueur de chaque élément du tuple
-  longueurss = [
+  # Calcule la longueur de chaque élément dans le tuple
+  longueurs = [
     length(var.nouriture[0]),
     length(var.nouriture[1]),
     length(var.nouriture[2]),
@@ -159,11 +153,11 @@ locals {
   ]
 
   # Trouve la longueur maximale
-  max_longueurss = max(local.longueurs)
+  max_longueur = max(local.longueurs)
 
-  # Cherche l'index de l'élément qui a la longueur maximale
+  # Trouve l’index de l’élément ayant la plus grande longueur
   index_max = index(local.longueurs, local.max_longueur)
 
-  # Récupère le nom correspondant dans le tuple
-  nom_plus_longs = var.nouriture[index_max5]
+  # Récupère le nom correspondant au plus long
+  nom_plus_long = var.nouriture[local.index_max]
 }
