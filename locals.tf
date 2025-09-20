@@ -165,5 +165,5 @@ locals {
   index_max = index(local.longueurs, local.max_longueur)
 
   # Récupère le nom correspondant dans le tuple
-  nom_plus_longs = var.nouriture[index_max]
+  nom_plus_longs = var.nouriture[index_max5]
 }
