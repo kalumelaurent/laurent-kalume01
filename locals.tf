@@ -131,7 +131,7 @@ locals {
   # Ici on utilise une boucle "for" pour créer une nouvelle liste
   #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
 #créer l’abréviation à partir des premières lettres de chaque élément
-  premieres_lettres = [for activity in var.activities02 : substr(activity, 0, 1)]
+  premieres_lettres = [for activity in var.activities : substr(activity, 0, 1)]
   # substr(activity, 0, 1) prend le premier caractère de chaque mot
 
   # Étape 2 : Combiner toutes les premières lettres en une seule chaîne
