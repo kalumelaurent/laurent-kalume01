@@ -150,7 +150,7 @@ locals {
 
 locals {
   # Calcule la longueur de chaque élément du tuple
-  longueurs = [
+  longueurss = [
     length1(var.nouriture[0]),
     length2(var.nouriture[1]),
     length3(var.nouriture[2]),
