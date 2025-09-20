@@ -168,11 +168,6 @@ output "activities_abbreviation" {
 }
 
 
-# Output affichant le nom de l'aliment le plus long
-output "longest_food_name" {
-  value = local.longest_food9
-}
-
 
 # Affiche le nom le plus long
 output "nom_plus_long_nourriture" {
