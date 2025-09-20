@@ -184,12 +184,6 @@ output "nom_plus_long_nourriture" {
 }
 
 
-#c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
-#créer l’abréviation à partir des premières lettres de chaque élément en majuscule 
-# Afficher la liste des premières lettres en majuscule
-output "premieres_lettres_upper" {
-  value = local.premieres_lettres_upper
-}
 
 #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
 #créer l’abréviation à partir des premières lettres de chaque élément en majuscule 
