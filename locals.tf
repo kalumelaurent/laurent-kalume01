@@ -138,12 +138,17 @@ locals {
 
 
 locals {
-  # Utiliser une compréhension de liste pour calculer les longueurs (donne une liste dynamique)
-  longueurs = [for i in range(length(var.nouriture)) : length(var.nouriture[i])]
+  longueurs = [
+    length(var.nouriture[0]),
+    length(var.nouriture[1]),
+    length(var.nouriture[2]),
+    length(var.nouriture[3]),
+    length(var.nouriture[4])
+  ]
 
-  max_longueur = max(local.longueurs)  # Fonctionne sur une liste
+ 
+  max_longueur = reduce(local.longueurs, 0, max)
 
-  index_max = index(local.longueurs, local.max_longueur)
-
+  index_max   = index(local.longueurs, local.max_longueur)
   nom_plus_long = var.nouriture[local.index_max]
 }
