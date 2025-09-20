@@ -204,7 +204,9 @@ variable "activities1" {
 }
 
 
-# Variable avec liste de noms de nourriture
+# Variable nouriture sous forme d'un tuple à 5 éléments, chacun de type string
 variable "nouriture" {
+  # On précise un type tuple à 5 éléments (ici tous string)
+  type = tuple([string, string, string, string, string])
   default = ["Pizza", "Burger", "Sushi", "Tacos", "Pasta"]
 }
