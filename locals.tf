@@ -151,11 +151,11 @@ locals {
 locals {
   # Calcule la longueur de chaque élément du tuple
   longueurss = [
-    length1(var.nouriture[0]),
-    length2(var.nouriture[1]),
-    length3(var.nouriture[2]),
-    length4(var.nouriture[3]),
-    length5(var.nouriture[4])
+    length(var.nouriture[0]),
+    length(var.nouriture[1]),
+    length(var.nouriture[2]),
+    length(var.nouriture[3]),
+    length(var.nouriture[4])
   ]
 
   # Trouve la longueur maximale
