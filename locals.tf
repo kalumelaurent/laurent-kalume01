@@ -136,7 +136,7 @@ locals {
 }
 
 
-
+# C’est un petit exercice pour apprendre à manipuler des listes et utiliser des fonctions comme length, max et index.
 locals {
   longueurs = [
     length(var.nouriture[0]),
