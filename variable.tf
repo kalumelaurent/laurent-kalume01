@@ -217,7 +217,7 @@ variable "nouriture" {
 # Définir une variable contenant une liste d'activités
 #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
 #créer l’abréviation à partir des premières lettres de chaque élément en majuscule 
-variable "activities" {
+variable "activities1" {
   type    = list(string)  # Liste de chaînes de caractères
   default = ["eat", "sleep", "code", "travel", "play"]
 }
