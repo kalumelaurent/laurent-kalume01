@@ -179,4 +179,18 @@ locals {
   # join("", ...) concatène toutes les lettres sans espace
 }
 
-
+# Création du contenu textuel combiné pour sortie dans un fichier
+locals {
+  top_lists_text = <<EOT
+Top 5 Fruits: ${join(", ", var.fruits)}
+Top 5 Movies: ${join(", ", var.movies)}
+Top 5 Travel: ${join(", ", var.travel)}
+Top 5 Workout: ${join(", ", var.workout)}
+Top 5 Foods: ${join(", ", var.foods)}
+Top 5 Colors: ${join(", ", var.colors)}
+Top 5 Songs: ${join(", ", var.songs)}
+Top 5 Emojis: ${join(", ", var.emojis)}
+Top 5 Affirmations: ${join(", ", var.affirmations)}
+Top 5 Ice Cream: ${join(", ", var.ice_cream)}
+EOT
+}
