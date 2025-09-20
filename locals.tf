@@ -125,3 +125,17 @@ locals {
   # Additionner toutes les longueurs pour obtenir le total des caractères
   total_characters = sum(local.lengths)
 }
+
+locals {
+  # On construit une liste avec la longueur de chaque aliment
+  # On obtient l’aliment le plus long avec une compréhension de liste filtrée puis on prend le premier
+  # (prend en compte la présence de plusieurs aliments de même longueur)
+  food_lengths = [for food in var.foods : length(food)]
+
+  # On trouve la longueur maximale dans la liste
+  longest_length = max(local.food_lengths)
+
+  # On sélectionne le premier aliment qui a cette longueur maximale
+  longest_food = [for food in var.foods : food if length(food) == local.longest_length][0]
+}
+
