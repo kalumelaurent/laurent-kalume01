@@ -168,7 +168,7 @@ output "activities_abbreviation" {
 }
 
 
-
+C’est un petit exercice pour apprendre à manipuler des listes et utiliser des fonctions comme length, max et index.
 output "index_plus_long_nouriture" {
   value = local.index_max
 }
