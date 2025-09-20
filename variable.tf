@@ -205,6 +205,7 @@ variable "activities1" {
 
 
 # Variable nouriture sous forme d'un tuple à 5 éléments, chacun de type string
+# C’est un petit exercice pour apprendre à manipuler des listes et utiliser des fonctions comme length, max et index.
 variable "nouriture" {
   # On précise un type tuple à 5 éléments (ici tous string)
   type = tuple([string, string, string, string, string])
