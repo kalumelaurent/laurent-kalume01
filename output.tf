@@ -161,9 +161,15 @@ output "total_characters_in_foods" {
   value = local.total_characters
 }
 
-# Output qui affiche l’abréviation sous forme de chaîne
-# Cette manipulation est importante en Terraform pour générer de façon automatique des noms, des identifiants 
-output "activities_abbreviation" {
+# Afficher la liste des premières lettres
+output "premieres_lettres" {
+  value = local.premieres_lettres
+}
+
+# Afficher l'abréviation finale
+#c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
+#créer l’abréviation à partir des premières lettres de chaque élément
+output "abbreviation" {
   value = local.abbreviation
 }
 
