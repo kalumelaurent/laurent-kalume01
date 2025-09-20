@@ -197,12 +197,13 @@ variable "plan_sku_name" {
 }
 
 
-# Déclarer la liste des activités
-# Cette manipulation est importante en Terraform pour générer de façon automatique des noms, des identifiants 
+# Définir une variable contenant une liste d'activités
+# c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
+# créer l’abréviation à partir des premières lettres de chaque élément
 variable "activite" {
+  type    = list(string)  # Liste de chaînes de caractères
   default = ["eat", "sleep", "code", "travel", "play"]
 }
-
 
 # Variable nouriture sous forme d'un tuple à 5 éléments, chacun de type string
 # C’est un petit exercice pour apprendre à manipuler des listes et utiliser des fonctions comme length, max et index.
