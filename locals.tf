@@ -175,7 +175,7 @@ locals {
   # upper() transforme chaque lettre en majuscule
 
   # Étape 3 : Combiner toutes les lettres pour former l'abréviation
-  abbreviation = join("", local.premieres_lettres_upper)
+  abbreviations = join("", local.premieres_lettres_upper)
   # join("", ...) concatène toutes les lettres sans espace
 }
 
