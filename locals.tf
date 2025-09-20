@@ -163,3 +163,20 @@ locals {
 }
 
 
+locals {
+  # Étape 1 : Extraire la première lettre de chaque mot
+  #c’est un exercice pour apprendre à transformer des données dans Terraform, de manière simple et pratique
+#créer l’abréviation à partir des premières lettres de chaque élément en majuscule 
+  premieres_lettres = [for activity in var.activities : substr(activity, 0, 1)]
+  # substr(activity, 0, 1) prend le premier caractère de chaque mot
+
+  # Étape 2 : Mettre chaque lettre en majuscule
+  premieres_lettres_upper = [for letter in local.premieres_lettres : upper(letter)]
+  # upper() transforme chaque lettre en majuscule
+
+  # Étape 3 : Combiner toutes les lettres pour former l'abréviation
+  abbreviation = join("", local.premieres_lettres_upper)
+  # join("", ...) concatène toutes les lettres sans espace
+}
+
+
