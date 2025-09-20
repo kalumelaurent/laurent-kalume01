@@ -203,7 +203,8 @@ variable "activities1" {
   default = ["eat", "sleep", "code", "travel", "play"]
 }
 
-# Variable contenant la liste des aliments
-variable "foods9" {
+
+# Variable avec liste de noms de nourriture
+variable "nouriture" {
   default = ["Pizza", "Burger", "Sushi", "Tacos", "Pasta"]
 }
