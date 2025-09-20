@@ -169,17 +169,10 @@ output "activities_abbreviation" {
 
 
 
-output "nom_plus_long_nourriture" {
-  value = local.nom_plus_long
-}
-
-
-# Afficher l'index de l'élément le plus long
 output "index_plus_long_nouriture" {
   value = local.index_max
 }
 
-# Afficher le nom de l'élément le plus long
-output "nom_plus_long_nouriture" {
+output "nom_plus_long_nourriture" {
   value = local.nom_plus_long
 }
