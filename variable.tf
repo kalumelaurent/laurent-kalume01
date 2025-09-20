@@ -233,7 +233,7 @@ variable "workout" {
   default = ["Push-ups", "Squats", "Plank", "Deadlifts", "Running"]
 }
 
-variable "foods" {
+variable "foodss" {
   default = ["Pizza", "Sushi", "Tacos", "Pasta", "Burger"]
 }
 
