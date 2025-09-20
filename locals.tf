@@ -138,21 +138,12 @@ locals {
 
 
 locals {
-  # Calculer la longueur de chaque élément du tuple
-  longueurs = [
-    length(var.nouriture[0]),
-    length(var.nouriture[1]),
-    length(var.nouriture[2]),
-    length(var.nouriture[3]),
-    length(var.nouriture[4])
-  ]
+  # Utiliser une compréhension de liste pour calculer les longueurs (donne une liste dynamique)
+  longueurs = [for i in range(length(var.nouriture)) : length(var.nouriture[i])]
 
-  # Trouver la longueur maximale
-  max_longueur = max(local.longueurs)
+  max_longueur = max(local.longueurs)  # Fonctionne sur une liste
 
-  # Trouver l'index de la longueur maximale
   index_max = index(local.longueurs, local.max_longueur)
 
-  # Obtenir le nom dans le tuple à la position de la longueur maximale
   nom_plus_long = var.nouriture[local.index_max]
 }
