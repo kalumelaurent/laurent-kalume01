@@ -128,7 +128,7 @@ locals {
 
 locals {
   # On utilise une compréhension de liste pour tirer la première lettre de chaque activité
-  initials2 = [for activity in var.activities1 : substr(activity, 0, 1)]
+  initials2 = [for activity in var.activite : substr(activity, 0, 1)]
 
   # On rejoint les lettres en une seule chaîne pour obtenir l'acronyme désiré
   # Cette manipulation est importante en Terraform pour générer de façon automatique des noms, des identifiants
