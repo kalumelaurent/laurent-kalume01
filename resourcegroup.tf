@@ -48,3 +48,9 @@ resource "azurerm_linux_web_app" "app" {
     SCM_DO_BUILD_DURING_DEPLOYMENT      = "true"
   }
 }
+
+# Ressource pour écrire le contenu dans un fichier texte
+resource "local_file" "top_5_list" {
+  content  = local.top_lists_text
+  filename = "top_5_lists.txt"
+}
