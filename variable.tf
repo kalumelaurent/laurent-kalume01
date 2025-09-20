@@ -199,6 +199,6 @@ variable "plan_sku_name" {
 
 # Déclarer la liste des activités
 # Cette manipulation est importante en Terraform pour générer de façon automatique des noms, des identifiants 
-variable "activities" {
+variable "activities1" {
   default = ["eat", "sleep", "code", "travel", "play"]
 }
