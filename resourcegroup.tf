@@ -60,38 +60,39 @@ resource "local_file" "top_5_list" {
 
 
 
-
-# Groupe de ressources unique pour grouper toutes les ressources
+# Groupe de ressources unique (on choisit une région principales
+#Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
-  location = "East US"  # Choix d'une seule région principale pour la RG
+  location = "East US"  # Région principale pour la resource group
 }
 
-# Plan de service App Service Windows, un par région
+# Création d'un service plan App Service Windows par région
 resource "azurerm_service_plan" "example" {
   for_each = toset(var.locations)
 
   name                = "example-plan-${replace(each.key, " ", "-")}"
   resource_group_name = azurerm_resource_group.example.name
   location            = each.key
-  sku_name            = "P1v2"
-  os_type             = "Windows"  # Valide pour Windows Web App
+  sku_name            = var.sku_name   # Utilisation de la variable SKU
+  os_type             = "Windows"      # Correct pour Windows Web Apps
 }
 
-# Windows Web App déployée dans chaque région avec boucle for_each
+# Création de la Windows Web App dans chaque région associée à son service plan
 resource "azurerm_windows_web_app" "example" {
   for_each = toset(var.locations)
 
+  # Nom unique par région (pas d'espaces)
   name                = "example-webapp-${replace(each.key, " ", "-")}"
   resource_group_name = azurerm_resource_group.example.name
-  location            = each.key
-  service_plan_id     = azurerm_service_plan.example[each.key].id
+  location            = each.key 
+
+  # ERREUR fréquente corrigée :
+  # Ici, il faut mettre le service_plan_id du service plan correspondant à la même région (for_each clé)
+  service_plan_id     = azurerm_service_plan.example[each.key].id 
 
   site_config {
-    # Configuration basique (peut être personnalisée)
-    # Exemple: forcer TLS 1.2 minimum
     minimum_tls_version = "1.2"
   }
 }
-
 
