@@ -262,6 +262,7 @@ variable "ice_cream" {
 
 
 # Variable pour SKU du service plan, par exemple "P1v2"
+Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
 variable "sku_name" {
   type    = string
   default = "P1v2"
