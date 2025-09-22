@@ -102,13 +102,13 @@ resource "azurerm_service_plan" "example" {
 
 # Création de l'application Web Windows dans chaque région, utilisant le service plan correspondant
 # Groupe de ressources (un seul pour centraliser, ou tu pourrais en créer un par région)
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_groups" "example" {
   name     = "example-rg"
   location = "West Europe"
 }
 
 # Création d’un Service Plan par région
-resource "azurerm_service_plan" "example" {
+resource "azurerm2_service_plan" "example" {
   for_each            = toset(var.locations)
   name                = "asp-${replace(each.key, " ", "")}"
   resource_group_name = azurerm_resource_group.example.name
