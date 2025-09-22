@@ -261,6 +261,12 @@ variable "ice_cream" {
  
 
 
+# Liste des régions Azure ciblées (5 régions différentes)
+variable "locations" {
+  type    = list(string)
+  default = ["East US", "West Europe", "Canada Central", "Australia East", "Japan East"]
+}
+
 
 
 
