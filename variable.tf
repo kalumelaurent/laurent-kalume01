@@ -258,19 +258,6 @@ variable "ice_cream" {
 }
 
 
-variable "webapp_names" {
-  type    = list(string)  # Déclare une variable de type liste de chaînes
-  default = ["app1", "app2", "app3", "app4", "app5"]  # Valeurs par défaut des noms des applications web
-resource "azurerm_windows_web_app" "example" {
-  name                = "webapp-ignore"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_service_plan.example.location
-  service_plan_id     = azurerm_service_plan.example.id
-
-  site_config {
-    always_on = true
-  }
-
  
 
 
