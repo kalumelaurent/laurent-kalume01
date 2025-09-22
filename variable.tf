@@ -261,12 +261,17 @@ variable "ice_cream" {
  
 
 
-# Liste des régions Azure ciblées (5 régions différentes)
+# Variable pour SKU du service plan, par exemple "P1v2"
+variable "sku_name" {
+  type    = string
+  default = "P1v2"
+}
+
+# Liste des régions (pays) différentes pour déployer les applis
 variable "locations" {
   type    = list(string)
   default = ["East US", "West Europe", "Canada Central", "Australia East", "Japan East"]
 }
-
 
 
 
