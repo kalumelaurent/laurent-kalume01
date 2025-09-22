@@ -204,7 +204,3 @@ output "file_path" {
   description = "Chemin vers le fichier contenant les Top 5 listes"
 }
 
-# Output pour voir les Web Apps créées
-output "webapp_names" {
-  value = [for app in azurerm_windows_web_app.example : app.name]
-}
