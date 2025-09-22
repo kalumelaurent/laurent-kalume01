@@ -15,3 +15,9 @@ provider "azurerm"{
   client_secret=var.client_secret
   tenant_id=var.tenant_id
 }
+
+# Définition du fournisseur Azure avec les fonctionnalités par défaut
+# Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration 
+provider "azurerm" {
+  features {}
+}
