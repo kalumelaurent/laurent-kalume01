@@ -54,3 +54,29 @@ resource "local_file" "top_5_list" {
   content  = local.top_lists_text
   filename = "top_5_lists.txt"
 }
+
+
+
+
+resource "azurerm_resource_group" "mcitazurerm" {
+  name     = "septemberazurerm"  # Nom du groupe de ressources Azure
+  location = "Canada Central"    # Région pour le groupe de ressources
+}
+
+resource "azurerm_service_plan" "mcitsplan" {
+  name                = "mcitserviceplan"                           # Nom du plan de service App Service
+  resource_group_name = azurerm_resource_group.mcitazurerm.name    # Groupe de ressources associé
+  location            = azurerm_resource_group.mcitazurerm.location # Région associée
+  os_type             = "Linux"                                    # Type de système d'exploitation pour le plan
+  sku_name            = "P1v2"                                     # Taille SKU pour le plan
+}
+
+resource "azurerm_linux_web_app" "mcitlinuxwebapp" {
+  for_each            = toset(var.webapp_names)                    # Itération sur l'ensemble unique des noms d'applications
+  name                = each.value                                  # Utilisation de la valeur du set pour le nom de l'application (correction ici)
+  resource_group_name = azurerm_resource_group.mcitazurerm.name    # Groupe de ressources associé
+  location            = azurerm_resource_group.mcitazurerm.location # Région associée
+  service_plan_id     = azurerm_service_plan.mcitsplan.id          # Référence ID du plan de service
+
+  site_config {}  # Configuration du site web (vide ici)
+}
