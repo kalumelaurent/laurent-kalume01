@@ -18,6 +18,6 @@ provider "azurerm"{
 
 # Définition du fournisseur Azure avec les fonctionnalités par défaut
 # Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration 
-provider "azurerm" {
+windows "azurerm" {
   features {}
 }
