@@ -263,15 +263,4 @@ variable "ice_cream" {
 
 
 
-# Variable contenant les 5 régions
-# Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration
-variable "locations" {
-  type    = list(string)
-  default = [
-    "West Europe",
-    "East US",
-    "Central US",
-    "UK South",
-    "Southeast Asia"
-  ]
-}
+
