@@ -102,7 +102,7 @@ resource "azurerm_service_plan" "example" {
 
 # Création de l'application Web Windows dans chaque région, utilisant le service plan correspondant
 # Groupe de ressources (un seul pour centraliser, ou tu pourrais en créer un par région)
-resource "azurerm_resource_groups" "example" {
+resource "azurerm_resource_group2" "example" {
   name     = "example-rg"
   location = "West Europe"
 }
