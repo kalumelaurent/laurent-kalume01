@@ -59,3 +59,39 @@ resource "local_file" "top_5_list" {
 
 
 
+
+
+# Groupe de ressources unique pour grouper toutes les ressources
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "East US"  # Choix d'une seule région principale pour la RG
+}
+
+# Plan de service App Service Windows, un par région
+resource "azurerm_service_plan" "example" {
+  for_each = toset(var.locations)
+
+  name                = "example-plan-${replace(each.key, " ", "-")}"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = each.key
+  sku_name            = "P1v2"
+  os_type             = "Windows"  # Valide pour Windows Web App
+}
+
+# Windows Web App déployée dans chaque région avec boucle for_each
+resource "azurerm_windows_web_app" "example" {
+  for_each = toset(var.locations)
+
+  name                = "example-webapp-${replace(each.key, " ", "-")}"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = each.key
+  service_plan_id     = azurerm_service_plan.example[each.key].id
+
+  site_config {
+    # Configuration basique (peut être personnalisée)
+    # Exemple: forcer TLS 1.2 minimum
+    minimum_tls_version = "1.2"
+  }
+}
+
+
