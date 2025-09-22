@@ -8,7 +8,7 @@ terraform{
   required_version=">=1.4.0"#this version is for Terraform Version, NOT azurerm
 }
 
-#provider "azurerm"{
+provider "azurerm"{
   features{}  
   subscription_id=var.subscription_id
   client_id=var.client_id
@@ -16,8 +16,3 @@ terraform{
   tenant_id=var.tenant_id
 }
 
-# Définition du fournisseur Azure avec les fonctionnalités par défaut
-# Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration 
-provider "azurerm" {
-  features {}
-}
