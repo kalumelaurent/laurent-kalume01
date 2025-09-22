@@ -101,3 +101,32 @@ resource "azurerm_service_plan" "example" {
 }
 
 # Création de l'application Web Windows dans chaque région, utilisant le service plan correspondant
+# Groupe de ressources (un seul pour centraliser, ou tu pourrais en créer un par région)
+resource "azurerm_resource_group" "example" {
+  name     = "example-rg"
+  location = "West Europe"
+}
+
+# Création d’un Service Plan par région
+resource "azurerm_service_plan" "example" {
+  for_each            = toset(var.locations)
+  name                = "asp-${replace(each.key, " ", "")}"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = each.key
+  sku_name            = "P1v2"
+  os_type             = "Windows"
+}
+
+# Création d’une Web App par région
+resource "azurerm_windows_web_app" "example" {
+  for_each            = azurerm_service_plan.example
+  name                = "webapp-${replace(each.key, " ", "")}-${each.key}"
+  resource_group_name = azurerm_resource_group.example.name
+  location            = each.value.location
+  service_plan_id     = each.value.id
+
+  site_config {
+    always_on = true
+  }
+}
+
