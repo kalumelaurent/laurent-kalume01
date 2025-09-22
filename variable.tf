@@ -256,3 +256,9 @@ variable "affirmations" {
 variable "ice_cream" {
   default = ["Vanilla", "Chocolate", "Strawberry", "Mint", "Cookies & Cream"]
 }
+
+
+variable "webapp_names" {
+  type    = list(string)  # Déclare une variable de type liste de chaînes
+  default = ["app1", "app2", "app3", "app4", "app5"]  # Valeurs par défaut des noms des applications web
+}
