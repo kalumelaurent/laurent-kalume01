@@ -80,3 +80,29 @@ resource "azurerm_linux_web_app" "mcitlinuxwebapp" {
 
   site_config {}  # Configuration du site web (vide ici)
 }
+
+
+# Création des groupes de ressources dans chaque région
+# Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration
+resource "azurerm_resource_group" "example" {
+  for_each = toset(local.locations)  # Itérer sur chaque région pour créer un groupe
+  name     = "example-resources-${each.key}"  # Nom unique par région
+  location = each.key
+}
+
+# Création d'un service plan Azure App Service Windows pour chaque région
+resource "azurerm_service_plan" "example" {
+  for_each = toset(local.locations)
+  name                = "example-plan-${each.key}"
+  resource_group_name = azurerm_resource_group.example[each.key].name
+  location            = each.key
+  sku_name            = "P1v2"      # SKU Premium P1v2 (Windows)
+  os_type             = "Windows"   # Système d'exploitation Windows pour l'App Service
+}
+
+# Création de l'application Web Windows dans chaque région, utilisant le service plan correspondant
+resource "azurerm_windows_web_app" "example" {
+  for_each = toset(local.locations)
+  name                = "example-webapp-${each.key}"   # Nom d'app unique par région
+  resource_group_name  = azurerm_resource_group.example[each.key].name
+  location            = each.key
