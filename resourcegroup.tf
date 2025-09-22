@@ -67,8 +67,8 @@ resource "azurerm_service_plan" "mcitsplan" {
   name                = "mcitserviceplan"                           # Nom du plan de service App Service
   resource_group_name = azurerm_resource_group.mcitazurerm.name    # Groupe de ressources associé
   location            = azurerm_resource_group.mcitazurerm.location # Région associée
-  os_type             = "Linux"                                    # Type de système d'exploitation pour le plan
-  sku_name            = "P1v2"                                     # Taille SKU pour le plan
+  os_type             = "Linux"   # "Linux" est valide [web:1][web:4]                                 # Type de système d'exploitation pour le plan
+  sku_name            = "P1v2"    # "P1v2" est valide (Premium v2) [web:4]                                 # Taille SKU pour le plan
 }
 
 resource "azurerm_linux_web_app" "mcitlinuxwebapp" {
