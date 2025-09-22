@@ -194,3 +194,11 @@ Top 5 Affirmations: ${join(", ", var.affirmations)}
 Top 5 Ice Cream: ${join(", ", var.ice_cream)}
 EOT
 }
+
+
+# Liste des régions Azure où seront déployées les ressources (ex: 5 pays différents)
+Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration
+locals {
+  locations = ["West Europe", "East US", "Southeast Asia", "Japan East", "Brazil South"]
+}
+
