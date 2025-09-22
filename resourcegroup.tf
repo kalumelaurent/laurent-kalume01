@@ -101,9 +101,3 @@ resource "azurerm_service_plan" "example" {
 }
 
 # Création de l'application Web Windows dans chaque région, utilisant le service plan correspondant
-resource "azurerm_windows_web_app" "example" {
-  for_each = toset(local.locations)
-  name                = "example-webapp-${each.key}"   # Nom d'app unique par région
-  resource_group_name  = azurerm_resource_group.example[each.key].name
-  location            = each.key
-}
