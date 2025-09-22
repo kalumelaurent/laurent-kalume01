@@ -90,11 +90,8 @@ resource "azurerm_windows_web_app" "example" {
     always_on = true
   }
 
-  lifecycle {
-    prevent_destroy = true      # Terraform refusera de la détruire
-    ignore_changes  = all       # Terraform ignore toutes les modifications
-  }
-}
+  
+
 
 
 
