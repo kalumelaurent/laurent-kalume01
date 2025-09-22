@@ -108,7 +108,7 @@ resource "azurerm_resource_groups" "example" {
 }
 
 # Création d’un Service Plan par région
-//resource "azurerm_service_plan" "example" {
+resource "azurerm_service_plan2" "example" {
   for_each            = toset(var.locations)
   name                = "asp-${replace(each.key, " ", "")}"
   resource_group_name = azurerm_resource_group.example.name
