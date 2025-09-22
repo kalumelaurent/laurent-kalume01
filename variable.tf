@@ -262,3 +262,17 @@ variable "webapp_names" {
   type    = list(string)  # Déclare une variable de type liste de chaînes
   default = ["app1", "app2", "app3", "app4", "app5"]  # Valeurs par défaut des noms des applications web
 }
+
+
+# Variable contenant les 5 régions
+# Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration
+variable "locations" {
+  type    = list(string)
+  default = [
+    "West Europe",
+    "East US",
+    "Central US",
+    "UK South",
+    "Southeast Asia"
+  ]
+}
