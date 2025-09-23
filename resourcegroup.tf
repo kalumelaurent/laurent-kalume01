@@ -62,37 +62,33 @@ resource "local_file" "top_5_list" {
 
 # Groupe de ressources unique (on choisit une région principales
 #Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
+# Groupe de ressources principal (dans une région, peut être ajusté)
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
-  location = "East US"  # Région principale pour la resource group
+  location = "West Europe"
 }
 
-# Création d'un service plan App Service Windows par région
+# Création d'un App Service Plan Windows par région avec utilisation des variables
 resource "azurerm_service_plan" "example" {
   for_each = toset(var.locations)
 
   name                = "example-plan-${replace(each.key, " ", "-")}"
   resource_group_name = azurerm_resource_group.example.name
   location            = each.key
-  sku_name            = var.sku_name   # Utilisation de la variable SKU
-  os_type             = "Windows"      # Correct pour Windows Web Apps
+  sku_name            = var.sku_name       # Utilise la variable SKU du service plan
+  os_type             = var.windows        # Utilise la variable OS type ("Windows")
 }
 
-# Création de la Windows Web App dans chaque région associée à son service plan
+# Création de la Web App Windows dans chaque région avec bon mapping du service_plan_id
 resource "azurerm_windows_web_app" "example" {
   for_each = toset(var.locations)
 
-  # Nom unique par région (pas d'espaces)
   name                = "example-webapp-${replace(each.key, " ", "-")}"
   resource_group_name = azurerm_resource_group.example.name
-  location            = each.key 
-
-  # ERREUR fréquente corrigée :
-  # Ici, il faut mettre le service_plan_id du service plan correspondant à la même région (for_each clé)
-  service_plan_id     = azurerm_service_plan.example[each.key].id 
+  location            = each.key
+  service_plan_id     = azurerm_service_plan.example[each.key].id   # Correction de l'erreur : sélectionne le bon service plan
 
   site_config {
     minimum_tls_version = "1.2"
   }
 }
-
