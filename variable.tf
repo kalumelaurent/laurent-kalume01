@@ -261,18 +261,20 @@ variable "ice_cream" {
  
 
 
-# Variable pour SKU du service plan, par exemple "P1v2"
-# Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
+# Variable pour le SKU du service plan (Premium v2 conseillé pour prod)
 variable "sku_name" {
   type    = string
   default = "P1v2"
 }
 
-# Liste des régions (pays) différentes pour déployer les applis
+# Variable pour l'OS du service plan
+variable "windows" {
+  type    = string
+  default = "Windows"
+}
+
+# Variable pour les emplacements/régions Azure demandées
 variable "locations" {
   type    = list(string)
   default = ["East US", "West Europe", "Canada Central", "Australia East", "Japan East"]
 }
-
-
-
