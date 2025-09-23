@@ -262,6 +262,7 @@ variable "ice_cream" {
 
 
 # Variable pour le SKU du service plan (Premium v2 conseillé pour prod)
+# En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
 variable "sku_name" {
   type    = string
   default = "P1v2"
