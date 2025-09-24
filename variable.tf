@@ -263,19 +263,21 @@ variable "ice_cream" {
 
 # Variable pour le SKU du service plan (Premium v2 conseillé pour prod)
 # En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
+# Déclare le pays cible (modifiable dans tfvars ou CLI)
+# Variable pour choisir le pays (modifiable pour l'internationalisation)
+variable "country" {
+  type    = string
+  default = "canada"
+}
+
+# Variables paramétriques pour le plan et l'OS
 variable "sku_name" {
   type    = string
   default = "P1v2"
 }
-
-# Variable pour l'OS du service plan
 variable "windows" {
   type    = string
   default = "Windows"
 }
 
-# Variable pour les emplacements/régions Azure demandées
-variable "locations" {
-  type    = list(string)
-  default = ["East US", "West Europe", "Canada Central", "Australia East", "Japan East"]
-}
+
