@@ -63,30 +63,29 @@ resource "local_file" "top_5_list" {
 # Groupe de ressources unique (on choisit une région principales
 #Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
 # Groupe de ressources principal (dans une région, peut être ajusté)
+# Création du groupe de ressources dans la région canadienne (modifiable via variables si besoin)
 resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
+  name     = "rg-webapps-${var.country}"
+  location = "Canada Central"
 }
 
-# Création d'un App Service Plan Windows par région avec utilisation des variables
+# Création d'un plan App Service Windows partagé pour toutes les apps
 resource "azurerm_service_plan" "example" {
-  for_each = toset(var.locations)
-
-  name                = "example-plan-${replace(each.key, " ", "-")}"
+  name                = "plan-webapps-${var.country}"
   resource_group_name = azurerm_resource_group.example.name
-  location            = each.key
-  sku_name            = var.sku_name       # Utilise la variable SKU du service plan
-  os_type             = var.windows        # Utilise la variable OS type ("Windows")
+  location            = azurerm_resource_group.example.location
+  sku_name            = var.sku_name
+  os_type             = var.windows
 }
 
-# Création de la Web App Windows dans chaque région avec bon mapping du service_plan_id
+# Déploiement de toutes les Windows Web Apps via une boucle for_each
 resource "azurerm_windows_web_app" "example" {
-  for_each = toset(var.locations)
+  for_each = toset(local.app_names)
 
-  name                = "example-webapp-${replace(each.key, " ", "-")}"
+  name                = each.key
   resource_group_name = azurerm_resource_group.example.name
-  location            = each.key
-  service_plan_id     = azurerm_service_plan.example[each.key].id   # Correction de l'erreur : sélectionne le bon service plan
+  location            = azurerm_resource_group.example.location
+  service_plan_id     = azurerm_service_plan.example.id
 
   site_config {
     minimum_tls_version = "1.2"
