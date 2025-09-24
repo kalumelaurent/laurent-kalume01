@@ -60,41 +60,4 @@ resource "local_file" "top_5_list" {
 
 
 
-# Groupe de ressources unique (on choisit une région principales
-#Déployer plusieurs instances d’une Web App Windows dans différentes régions Azure (5 pays différents, 5 régions)
-# Groupe de ressources principal (dans une région, peut être ajusté)
-# Création du groupe de ressources dans la région canadienne (modifiable via variables si besoin)
-resource "azurerm_resource_group" "example" {
-  name     = "rg-webapps-${var.country}"
-  location = "Canada Central"
-}
-
-# Création d'un plan App Service Windows partagé pour toutes les apps
-resource "azurerm_service_plan" "example" {
-  name                = "plan-webapps-${var.country}"
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  sku_name            = var.sku_name
-  os_type             = var.windows
-}
-
-# Déploiement de toutes les Windows Web Apps via une boucle for_each
-resource "azurerm_windows_web_app" "example" {
-  for_each = toset(local.app_names)
-
-  name                = each.key
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
-  service_plan_id     = azurerm_service_plan.example.id
-
-  site_config {
-    minimum_tls_version = "1.2"
-  }
-}
-
-
-
-
-
-
-
+#
