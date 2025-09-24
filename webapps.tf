@@ -15,7 +15,7 @@ variable "windows" {
 }
 
 # Liste des items/apps à déployer
-variable "items" {
+variable "items2" {
   type    = list(string)
   default = [
     "burger",
