@@ -217,3 +217,26 @@ locals {
     "wa-${var.country}-${name}"
   ]
 }
+
+
+
+
+
+
+
+
+# Liste des apps Linux (Canada)
+locals {
+  canada_linux_apps = [
+    "mapleleaf", "hockey", "poutine", "mountie", "niagara",
+    "timhortons", "beavertail", "loonie", "canoe", "igloo"
+  ]
+}
+
+# Liste des apps Windows (USA)
+locals {
+  usa_windows_apps = [
+    "burger", "baseball", "jeans", "hollywood", "donut",
+    "jazz", "applepie", "football", "route66", "hotdog"
+  ]
+}
