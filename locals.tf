@@ -198,7 +198,22 @@ EOT
 
 # Liste des régions Azure où seront déployées les ressources (ex: 5 pays différents)
 # Cette approche permet de déployer la même application dans 5 régions différentes en une seule configuration
+# Liste des apps à déployer pour le pays "canada"
 locals {
-  locations = ["West Europe", "East US", "Southeast Asia", "Japan East", "Brazil South"]
+  canada_apps = [
+    "mapleleaf",
+    "hockey",
+    "poutine",
+    "mountie",
+    "niagara",
+    "timhortons",
+    "beavertail",
+    "loonie",
+    "canoe",
+    "igloo"
+  ]
+  app_names = [
+    for name in local.canada_apps :
+    "wa-${var.country}-${name}"
+  ]
 }
-
