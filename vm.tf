@@ -1,10 +1,10 @@
-# 1. Groupe de ressources à Montréal (Canada Central)
+# 1. Groupe de ressources dans la région de Montréal
 resource "azurerm_resource_group" "kalume" {
-  name     = "example-resources-montreal"
-  location = "Canada Central" # Correction pour la région Montréal/Québec
+  name     = "kami-resources"
+  location = "Canada Central" # Correction de la région pour Montréal
 }
 
-# 2. Réseau virtuel dédié, adresse privée
+# 2. Virtual Network interne
 resource "azurerm_virtual_network" "kami" {
   name                = "kami-network"
   address_space       = ["10.0.0.0/16"]
@@ -12,7 +12,7 @@ resource "azurerm_virtual_network" "kami" {
   resource_group_name = azurerm_resource_group.kalume.name
 }
 
-# 3. Sous-réseau interne
+# 3. Sous-réseau privé interne
 resource "azurerm_subnet" "kami" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.kalume.name
@@ -20,7 +20,7 @@ resource "azurerm_subnet" "kami" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# 4. Interface réseau reliée au subnet privé
+# 4. Interface réseau associée au subnet privé
 resource "azurerm_network_interface" "kami" {
   name                = "kami-nic"
   location            = azurerm_resource_group.kalume.location
@@ -33,7 +33,18 @@ resource "azurerm_network_interface" "kami" {
   }
 }
 
-# 5. VM Linux Debian sur le réseau privé Montréal
+# 5. Lecture correcte et compatible de la clé SSH
+# Place le fichier public "id_rsa.pub" dans le même dossier que ton code .tf :
+variable "ssh_public_key_path" {
+  type    = string
+  default = "id_rsa.pub"
+}
+
+data "local_file" "ssh_key" {
+  filename = var.ssh_public_key_path
+}
+
+# 6. Création de la VM Debian reliée au réseau privé
 resource "azurerm_linux_virtual_machine" "kami" {
   name                  = "debian-vm-montreal"
   resource_group_name   = azurerm_resource_group.kalume.name
@@ -44,7 +55,7 @@ resource "azurerm_linux_virtual_machine" "kami" {
 
   admin_ssh_key {
     username   = "adminuser"
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = data.local_file.ssh_key.content
   }
 
   os_disk {
@@ -52,7 +63,7 @@ resource "azurerm_linux_virtual_machine" "kami" {
     storage_account_type = "Standard_LRS"
   }
 
-  # Image officielle Debian 11 (Bullseye)
+  # Image officielle Debian Cloud Marketplace
   source_image_reference {
     publisher = "Debian"
     offer     = "debian-11"
@@ -60,3 +71,5 @@ resource "azurerm_linux_virtual_machine" "kami" {
     version   = "latest"
   }
 }
+
+
