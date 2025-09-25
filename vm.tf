@@ -1,4 +1,11 @@
 ##########################################
+# Provider (assure-toi d’avoir bien configuré ton az login)
+##########################################
+provider "azurerm" {
+  features {}
+}
+
+##########################################
 # 1. Resource Group
 ##########################################
 resource "azurerm_resource_group" "kalume" {
@@ -27,7 +34,7 @@ resource "azurerm_subnet" "kami" {
 }
 
 ##########################################
-# 4. Network Interface (sans IP publique → réseau interne uniquement)
+# 4. Network Interface (pas d’IP publique)
 ##########################################
 resource "azurerm_network_interface" "kami" {
   name                = "kami-nic"
@@ -42,19 +49,20 @@ resource "azurerm_network_interface" "kami" {
 }
 
 ##########################################
-# 5. Clé SSH (bonne pratique)
+# 5. Clé SSH (bonne pratique corrigée)
 ##########################################
-# ⚠️ La fonction file("~/.ssh/id_rsa.pub") donne une erreur si
-# le chemin n’existe pas ou si Terraform n’a pas accès.
-# Solution = créer une variable qui pointe vers ton fichier de clé SSH
-# et utiliser file() sur ce chemin.
+
+# Variable pour pointer vers le chemin du fichier clé publique
+# ⚠️ Remplace par ton chemin absolu si "~" ne marche pas
 variable "ssh_public_key_path" {
   description = "Chemin vers la clé publique SSH"
   type        = string
-  default     = "~/.ssh/id_rsa.pub" # change si ta clé est ailleurs
+  # Exemple Linux/Mac : "/home/kalume/.ssh/id_rsa.pub"
+  # Exemple Windows   : "C:/Users/kalume/.ssh/id_rsa.pub"
+  default     = "/home/kalume/.ssh/id_rsa.pub"
 }
 
-# Charger la clé depuis un fichier local
+# Charger la clé publique depuis le fichier local
 data "local_file" "ssh_key" {
   filename = pathexpand(var.ssh_public_key_path)
 }
@@ -66,13 +74,13 @@ resource "azurerm_linux_virtual_machine" "kami" {
   name                = "debian-vm"
   resource_group_name = azurerm_resource_group.kalume.name
   location            = azurerm_resource_group.kalume.location
-  size                = "Standard_B1s" # VM pas chère pour tests
+  size                = "Standard_B1s" # VM économique pour tests
   admin_username      = "adminuser"
   network_interface_ids = [
     azurerm_network_interface.kami.id,
   ]
 
-  # Clé SSH corrigée
+  # Utilisation de la clé SSH corrigée
   admin_ssh_key {
     username   = "adminuser"
     public_key = data.local_file.ssh_key.content
@@ -83,11 +91,19 @@ resource "azurerm_linux_virtual_machine" "kami" {
     storage_account_type = "Standard_LRS"
   }
 
-  # Debian image officielle
+  # Image officielle Debian 11
   source_image_reference {
     publisher = "Debian"
     offer     = "debian-11"
     sku       = "11"
     version   = "latest"
   }
+}
+
+##########################################
+# 7. Output (affiche l’adresse IP privée de la VM)
+##########################################
+output "private_ip_address" {
+  description = "Adresse IP privée de la VM Debian"
+  value       = azurerm_network_interface.kami.ip_configuration[0].private_ip_address
 }
