@@ -1,3 +1,5 @@
+
+#########################################################
 # Variable pour définir le pays cible (Canada par défaut)
 variable "country" {
   type    = string
