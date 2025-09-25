@@ -1,9 +1,4 @@
-##########################################
-# Provider (assure-toi d’avoir bien configuré ton az login)
-##########################################
-provider "azurerm" {
-  features {}
-}
+
 
 ##########################################
 # 1. Resource Group
