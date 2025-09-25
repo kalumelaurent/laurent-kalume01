@@ -1,10 +1,14 @@
-# 1. Groupe de ressources à Montréal
+##########################################
+# 1. Resource Group
+##########################################
 resource "azurerm_resource_group" "kalume" {
   name     = "kami-resources"
-  location = "Canada Central"  # Remplacement correct de West Europe par Montréal
+  location = "Canada Central" # Région Montréal
 }
 
-# 2. Virtual Network
+##########################################
+# 2. Réseau virtuel
+##########################################
 resource "azurerm_virtual_network" "kami" {
   name                = "kami-network"
   address_space       = ["10.0.0.0/16"]
@@ -12,7 +16,9 @@ resource "azurerm_virtual_network" "kami" {
   resource_group_name = azurerm_resource_group.kalume.name
 }
 
-# 3. Subnet
+##########################################
+# 3. Subnet interne
+##########################################
 resource "azurerm_subnet" "kami" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.kalume.name
@@ -20,7 +26,9 @@ resource "azurerm_subnet" "kami" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# 4. Network Interface
+##########################################
+# 4. Network Interface (sans IP publique → réseau interne uniquement)
+##########################################
 resource "azurerm_network_interface" "kami" {
   name                = "kami-nic"
   location            = azurerm_resource_group.kalume.location
@@ -33,26 +41,38 @@ resource "azurerm_network_interface" "kami" {
   }
 }
 
-# 5. Variable pour chemin clé SSH - le fichier doit être dans le dossier du projet Terraform
+##########################################
+# 5. Clé SSH (bonne pratique)
+##########################################
+# ⚠️ La fonction file("~/.ssh/id_rsa.pub") donne une erreur si
+# le chemin n’existe pas ou si Terraform n’a pas accès.
+# Solution = créer une variable qui pointe vers ton fichier de clé SSH
+# et utiliser file() sur ce chemin.
 variable "ssh_public_key_path" {
-  type    = string
-  default = "id_rsa.pub"
+  description = "Chemin vers la clé publique SSH"
+  type        = string
+  default     = "~/.ssh/id_rsa.pub" # change si ta clé est ailleurs
 }
 
-# 6. Lecture de la clé publique via data source local_file
+# Charger la clé depuis un fichier local
 data "local_file" "ssh_key" {
-  filename = var.ssh_public_key_path
+  filename = pathexpand(var.ssh_public_key_path)
 }
 
-# 7. Linux Virtual Machine Debian sur réseau interne Montréal
+##########################################
+# 6. Virtual Machine Debian
+##########################################
 resource "azurerm_linux_virtual_machine" "kami" {
-  name                  = "debian-vm-montreal"
-  resource_group_name   = azurerm_resource_group.kalume.name
-  location              = azurerm_resource_group.kalume.location
-  size                  = "Standard_F2"
-  admin_username        = "adminuser"
-  network_interface_ids = [azurerm_network_interface.kami.id]
+  name                = "debian-vm"
+  resource_group_name = azurerm_resource_group.kalume.name
+  location            = azurerm_resource_group.kalume.location
+  size                = "Standard_B1s" # VM pas chère pour tests
+  admin_username      = "adminuser"
+  network_interface_ids = [
+    azurerm_network_interface.kami.id,
+  ]
 
+  # Clé SSH corrigée
   admin_ssh_key {
     username   = "adminuser"
     public_key = data.local_file.ssh_key.content
@@ -63,6 +83,7 @@ resource "azurerm_linux_virtual_machine" "kami" {
     storage_account_type = "Standard_LRS"
   }
 
+  # Debian image officielle
   source_image_reference {
     publisher = "Debian"
     offer     = "debian-11"
