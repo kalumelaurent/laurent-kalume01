@@ -34,7 +34,7 @@ variable "items2" {
 }
 
 # Resource group au Canada
-#resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "example" {
   name     = "rg-${var.country}-apps"
   location = "Canada Central"
 }
