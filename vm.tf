@@ -1,10 +1,8 @@
-# 1. Groupe de ressources dans la région de Montréal
 resource "azurerm_resource_group" "kalume" {
   name     = "kami-resources"
-  location = "Canada Central" # Correction de la région pour Montréal
+  location = "Canada Central" # Correction région Montreal
 }
 
-# 2. Virtual Network interne
 resource "azurerm_virtual_network" "kami" {
   name                = "kami-network"
   address_space       = ["10.0.0.0/16"]
@@ -12,7 +10,6 @@ resource "azurerm_virtual_network" "kami" {
   resource_group_name = azurerm_resource_group.kalume.name
 }
 
-# 3. Sous-réseau privé interne
 resource "azurerm_subnet" "kami" {
   name                 = "internal"
   resource_group_name  = azurerm_resource_group.kalume.name
@@ -20,7 +17,6 @@ resource "azurerm_subnet" "kami" {
   address_prefixes     = ["10.0.2.0/24"]
 }
 
-# 4. Interface réseau associée au subnet privé
 resource "azurerm_network_interface" "kami" {
   name                = "kami-nic"
   location            = azurerm_resource_group.kalume.location
@@ -33,18 +29,17 @@ resource "azurerm_network_interface" "kami" {
   }
 }
 
-# 5. Lecture correcte et compatible de la clé SSH
-# Place le fichier public "id_rsa.pub" dans le même dossier que ton code .tf :
+# Variable indiquant le chemin relatif vers la clé publique
 variable "ssh_public_key_path" {
   type    = string
-  default = "id_rsa.pub"
+  default = "id_rsa.pub" # placer ce fichier dans le dossier Terraform, pas ~/.ssh
 }
 
+# Data source pour lire la clé publique localement
 data "local_file" "ssh_key" {
   filename = var.ssh_public_key_path
 }
 
-# 6. Création de la VM Debian reliée au réseau privé
 resource "azurerm_linux_virtual_machine" "kami" {
   name                  = "debian-vm-montreal"
   resource_group_name   = azurerm_resource_group.kalume.name
@@ -63,7 +58,6 @@ resource "azurerm_linux_virtual_machine" "kami" {
     storage_account_type = "Standard_LRS"
   }
 
-  # Image officielle Debian Cloud Marketplace
   source_image_reference {
     publisher = "Debian"
     offer     = "debian-11"
@@ -71,5 +65,6 @@ resource "azurerm_linux_virtual_machine" "kami" {
     version   = "latest"
   }
 }
+
 
 
