@@ -1,5 +1,5 @@
 # 1. Le groupe de ressources place toutes les ressources dans un même conteneur logique (meilleure gestion et organisation Azure)
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" " {
   name     = "waf-demo-rg"
   location = "Canada Central"
 }
