@@ -1,56 +1,66 @@
-# 1. Le groupe de ressources place toutes les ressources dans un même conteneur logique (meilleure gestion et organisation Azure)
+# 1. Création du groupe de ressources
 resource "azurerm_resource_group" "rg" {
   name     = "waf-demo-rg"
   location = "Canada Central"
 }
 
-# 2. Création de la WAF Policy pour centraliser la configuration de sécurité applicative
-resource "azurerm_web_application_firewall_policy" "waf_policy" {
-  name                = "demo-waf-policy"
-  resource_group_name = azurerm_resource_group.rg.name
+# 2. Création d'un VNet nécessaire à l'Application Gateway (obligatoire sur Azure)
+resource "azurerm_virtual_network" "vnet" {
+  name                = "demo-vnet"
+  address_space       = ["10.0.0.0/16"]
   location            = azurerm_resource_group.rg.location
-
-  policy_settings {
-    enabled = true                 # Active la WAF sur le gateway
-    mode    = "Prevention"         # Mode "Prevention" bloque les attaques au lieu de simplement les détecter ("Detection")
-  }
-
-  managed_rules {
-    managed_rule_set {
-      type    = "OWASP"            # Ensemble de règles OWASP, reconnu pour la protection des vulnérabilités web courantes
-      version = "3.2"
-    }
-  }
-
-  # Exemple d'une règle personnalisée pour bloquer une IP ou signer d'autres comportements inhabituels (optionnel)
-  custom_rules {
-    name      = "BlockBadIP"
-    priority  = 1
-    rule_type = "MatchRule"
-    action    = "Block"
-    match_conditions {
-      match_variables {
-        variable_name = "RemoteAddr" # Variable analysée (ici l’adresse IP distante)
-      }
-      operator     = "IPMatch"       # Type de correspondance
-      match_values = ["1.2.3.4"]     # Adresse IP à bloquer
-    }
-  }
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
-# 3. Le WAF Policy n'agit que via un reverse-proxy compatible : Application Gateway
-# On crée un public IP pour exposer ce gateway (il reçoit tout le trafic avant la web app)
+# 3. Subnet dédié à l'Application Gateway
+resource "azurerm_subnet" "appgw_subnet" {
+  name                 = "appgw-subnet"
+  resource_group_name  = azurerm_resource_group.rg.name
+  virtual_network_name = azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.0.1.0/24"] # Ne pas partager ce subnet avec d'autres ressources Azure !
+}
+
+# 4. IP publique pour exposer le Application Gateway sur Internet
 resource "azurerm_public_ip" "gw_ip" {
-  name                = "waf-gateway-ip"
+  name                = "waf-gw-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Static"
   sku                 = "Standard"
 }
 
-# 4. Application Gateway : reverse proxy devant la webapp, point d'entrée web et intégration du WAF
-resource "azurerm_application_gateway" "waf_gw" {
-  name                = "waf-gateway"
+# 5. Définition d'une WAF Policy centralisée pour l'Application Gateway
+resource "azurerm_web_application_firewall_policy" "policy" {
+  name                = "demo-waf-policy"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+
+  policy_settings {
+    enabled = true
+    mode    = "Prevention"
+  }
+  managed_rules {
+    managed_rule_set {
+      type    = "OWASP"
+      version = "3.2"
+    }
+  }
+  custom_rules {
+    name      = "BlockIPs"
+    priority  = 1
+    rule_type = "MatchRule"
+    action    = "Block"
+    match_conditions {
+      match_variables { variable_name = "RemoteAddr" }
+      operator     = "IPMatch"
+      match_values = ["1.2.3.4"]
+    }
+  }
+}
+
+# 6. Application Gateway avec association WAF POLICY et référence automatique au subnet
+resource "azurerm_application_gateway" "gw" {
+  name                = "demo-waf-gw"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -62,8 +72,9 @@ resource "azurerm_application_gateway" "waf_gw" {
 
   gateway_ip_configuration {
     name      = "gw-ip-config"
-    subnet_id = "<ID_SUBNET>"   # À remplacer par ton subnet dans un VNet existant
+    subnet_id = azurerm_subnet.appgw_subnet.id  # Correction: plus besoin de fournir ID "à la main"
   }
+
   frontend_port {
     name = "frontendPort"
     port = 80
@@ -72,16 +83,15 @@ resource "azurerm_application_gateway" "waf_gw" {
     name                 = "frontendIP"
     public_ip_address_id = azurerm_public_ip.gw_ip.id
   }
-  # backend pool = webapp Azure FQDN, permet de relier le trafic proxy à la webapp cible
   backend_address_pool {
-    name  = "app-backend-pool"
-    fqdns = ["<web-app-name>.azurewebsites.net"] # à personnaliser avec ta webapp
+    name  = "demo-backend"
+    fqdns = ["<webapp-name>.azurewebsites.net"] # à remplacer par ta Web App cible
   }
   backend_http_settings {
-    name                             = "settings"
-    cookie_based_affinity             = "Disabled"
-    port                             = 80
-    protocol                         = "Http"
+    name                              = "settings"
+    port                              = 80
+    protocol                          = "Http"
+    cookie_based_affinity              = "Disabled"
     pick_host_name_from_backend_address = true
   }
   http_listener {
@@ -94,19 +104,8 @@ resource "azurerm_application_gateway" "waf_gw" {
     name                       = "rule1"
     rule_type                  = "Basic"
     http_listener_name         = "listener"
-    backend_address_pool_name  = "app-backend-pool"
+    backend_address_pool_name  = "demo-backend"
     backend_http_settings_name = "settings"
   }
-  firewall_policy_id = azurerm_web_application_firewall_policy.waf_policy.id
-  force_firewall_policy_association = true
+  firewall_policy_id = azurerm_web_application_firewall_policy.policy.id
 }
-
-# ---------------------------------------------------------------------------------------
-# Pourquoi ce design ?
-# ---------------------------------------------------------------------------------------
-# - Un WAF Policy permet de définir et centraliser toutes les règles de sécurité applicative.
-# - Seul un reverse proxy comme Application Gateway Azure peut intégrer et appliquer ces règles en amont d’une web app.
-# - Application Gateway reçoit le trafic web, applique la WAF Policy, puis achemine le trafic vers la web app. Tout le filtrage et blocage s'effectue avant que la webapp soit touchée.
-# - Les custom_rules permettent de réagir à des cas métier ou menaces spécifiques (IPs, pays, regex...).
-# - Mode Prevention active la protection directe, Mode Detection sert pour les tests ou audits sécurité.
-# - Il est impossible de relier directement une WAF Policy à un App Service sans passer par le reverse proxy Application Gateway.
