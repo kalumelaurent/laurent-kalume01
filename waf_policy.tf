@@ -1,10 +1,10 @@
-# 1. Création du groupe de ressources
+# 1. Groupe de ressources pour centraliser toutes les ressources
 resource "azurerm_resource_group" "rg" {
   name     = "waf-demo-rg"
   location = "Canada Central"
 }
 
-# 2. Création d'un VNet nécessaire à l'Application Gateway (obligatoire sur Azure)
+# 2. VNet pour réseaux internes (obligatoire pour Application Gateway)
 resource "azurerm_virtual_network" "vnet" {
   name                = "demo-vnet"
   address_space       = ["10.0.0.0/16"]
@@ -12,15 +12,15 @@ resource "azurerm_virtual_network" "vnet" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# 3. Subnet dédié à l'Application Gateway
+# 3. Subnet dédié Application Gateway
 resource "azurerm_subnet" "appgw_subnet" {
   name                 = "appgw-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"] # Ne pas partager ce subnet avec d'autres ressources Azure !
+  address_prefixes     = ["10.0.1.0/24"]
 }
 
-# 4. IP publique pour exposer le Application Gateway sur Internet
+# 4. IP publique pour exposer le Gateway sur Internet
 resource "azurerm_public_ip" "gw_ip" {
   name                = "waf-gw-ip"
   location            = azurerm_resource_group.rg.location
@@ -29,11 +29,22 @@ resource "azurerm_public_ip" "gw_ip" {
   sku                 = "Standard"
 }
 
-# 5. Définition d'une WAF Policy centralisée pour l'Application Gateway
+# 5. Boucle pour créer dynamiquement 5 WAF policies différentes
+locals {
+  waf_policy_names = [
+    "demo-wafpolicy1",
+    "demo-wafpolicy2",
+    "demo-wafpolicy3",
+    "demo-wafpolicy4",
+    "demo-wafpolicy5"
+  ]
+}
+
 resource "azurerm_web_application_firewall_policy" "policy" {
-  name                = "demo-waf-policy"
+  for_each           = toset(local.waf_policy_names)
+  name               = each.value
   resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
+  location           = azurerm_resource_group.rg.location
 
   policy_settings {
     enabled = true
@@ -45,6 +56,7 @@ resource "azurerm_web_application_firewall_policy" "policy" {
       version = "3.2"
     }
   }
+  # Exemple de règle custom simple (identique pour chaque policy ici, modifiable selon tes besoins)
   custom_rules {
     name      = "BlockIPs"
     priority  = 1
@@ -56,56 +68,4 @@ resource "azurerm_web_application_firewall_policy" "policy" {
       match_values = ["1.2.3.4"]
     }
   }
-}
-
-# 6. Application Gateway avec association WAF POLICY et référence automatique au subnet
-resource "azurerm_application_gateway" "gw" {
-  name                = "demo-waf-gw"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-
-  sku {
-    name     = "WAF_v2"
-    tier     = "WAF_v2"
-    capacity = 2
-  }
-
-  gateway_ip_configuration {
-    name      = "gw-ip-config"
-    subnet_id = azurerm_subnet.appgw_subnet.id  # Correction: plus besoin de fournir ID "à la main"
-  }
-
-  frontend_port {
-    name = "frontendPort"
-    port = 80
-  }
-  frontend_ip_configuration {
-    name                 = "frontendIP"
-    public_ip_address_id = azurerm_public_ip.gw_ip.id
-  }
-  backend_address_pool {
-    name  = "demo-backend"
-    fqdns = ["<webapp-name>.azurewebsites.net"] # à remplacer par ta Web App cible
-  }
-  backend_http_settings {
-    name                              = "settings"
-    port                              = 80
-    protocol                          = "Http"
-    cookie_based_affinity              = "Disabled"
-    pick_host_name_from_backend_address = true
-  }
-  http_listener {
-    name                           = "listener"
-    frontend_ip_configuration_name = "frontendIP"
-    frontend_port_name             = "frontendPort"
-    protocol                       = "Http"
-  }
-  request_routing_rule {
-    name                       = "rule1"
-    rule_type                  = "Basic"
-    http_listener_name         = "listener"
-    backend_address_pool_name  = "demo-backend"
-    backend_http_settings_name = "settings"
-  }
-  firewall_policy_id = azurerm_web_application_firewall_policy.policy.id
 }
