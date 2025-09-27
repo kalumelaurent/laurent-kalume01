@@ -198,8 +198,4 @@ output "abbreviations" {
 }
 
 
-# Output de l'emplacement du fichier généré
-output "file_path" {
-  value = local_file.top_5_list.filename
-  description = "Chemin vers le fichier contenant les Top 5 listes"
-}
+
