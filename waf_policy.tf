@@ -1,3 +1,4 @@
+/*
 # 1. Groupe de ressources pour centraliser toutes les ressources
 resource "azurerm_resource_group" "rg" {
   name     = "waf-demo-rg"
@@ -69,7 +70,7 @@ resource "azurerm_web_application_firewall_policy" "policy" {
     }
   }
 }
-
+*/
 
 
 # - La WAF Policy sécurise le trafic web contre les vulnérabilités classiques (OWASP) et personnalisées (custom_rules).
