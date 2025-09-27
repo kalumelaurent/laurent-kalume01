@@ -14,7 +14,7 @@ resource "azurerm_resource_group" "terraformseptember" {
 # En résumé, cet exercice vous équipe pour gérer efficacement vos apps cloud via Terraform, assurant contrôle, rapidité, et rigueur dans vos déploiements Azure
 # Création du groupe de ressources Azure
 
-variable "location" {
+/*variable "location" {
   default = "CanadaEast"
 }
 
@@ -69,5 +69,5 @@ resource "local_file" "top_5_list" {
   content  = local.top_lists_text
   filename = "top_5_lists.txt"
 }
-
+/*
 
