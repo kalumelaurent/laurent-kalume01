@@ -69,3 +69,12 @@ resource "azurerm_web_application_firewall_policy" "policy" {
     }
   }
 }
+
+
+
+# - La WAF Policy sécurise le trafic web contre les vulnérabilités classiques (OWASP) et personnalisées (custom_rules).
+# - Son association au gateway (application gateway) permet de filtrer les attaques avant d'atteindre la Web App.
+# - Le trafic client arrive au gateway, le WAF l'analyse selon la politique définie puis le redirige vers la Web App si le trafic est autorisé.
+# - Impossible d'assigner une WAF Policy directement à un App Service : l'architecture Azure impose l'usage du gateway comme reverse proxy sécurisé.
+# - Ce design facilite la gestion centralisée des règles sécurité, leur réutilisation et leur évolution sans toucher à la Web App directement.
+# - La politique WAF peut être enrichie (custom rules, exclusions, mode detection...), rendant la solution robuste et flexible.
