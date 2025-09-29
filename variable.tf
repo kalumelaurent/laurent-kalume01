@@ -183,6 +183,7 @@ variable "project_name" {
   default = "mywebapp"
 }
 
+/*
 # Région Azure où les ressources seront déployées
 variable "location" {
   type    = string
@@ -195,7 +196,7 @@ variable "plan_sku_name" {
   type    = string
   default = "B1"
 }
-
+*/
 
 
 # Variable nouriture sous forme d'un tuple à 5 éléments, chacun de type string
