@@ -18,7 +18,7 @@ variable "vnet_name" {
 
 #Tu peux changer : Le nom "kami" par un autre nom qui te convient (exemple "my-vnet").
 
-text
+
 variable "subnet_name" {
   description = "Nom du subnet"
   type        = string
@@ -71,7 +71,7 @@ resource "azurerm_resource_group" "kami_rg" {
 
 # Tu peux changer : Le nom "kami-rg" selon ta politique de nommage.
 
-text
+
 resource "azurerm_virtual_network" "kami_vnet" {
   name                = var.vnet_name
   address_space       = var.vnet_address_space
