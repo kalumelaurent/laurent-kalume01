@@ -1,6 +1,5 @@
 
-# Variables pour personnalisation
-
+# Variables 
 variable "location" {
   description = "Région Azure"
   type        = string
@@ -19,37 +18,45 @@ variable "subnet_name" {
   default     = "kami"
 }
 
+variable "vnet_address_space" {
+  description = "Liste des plages d'adresses CIDR pour le VNet"
+  type        = list(string)
+  default     = ["10.0.0.0/16"]
+}
+
+variable "subnet_address_prefixes" {
+  description = "Liste des plages d'adresses CIDR pour le subnet"
+  type        = list(string)
+  default     = ["10.0.1.0/24"]
+}
+
 variable "storage_account_names" {
-  description = "Liste des noms des 10 comptes de stockage"
+  description = "Noms des 10 comptes de stockage"
   type        = list(string)
   default     = [
-    "kamiaccount01",
-    "kamiaccount02",
-    "kamiaccount03",
-    "kamiaccount04",
-    "kamiaccount05",
-    "kamiaccount06",
-    "kamiaccount07",
-    "kamiaccount08",
-    "kamiaccount09",
-    "kamiaccount10"
+    "kami01",
+    "kami02",
+    "kami03",
+    "kami04",
+    "kami05",
+    "kami06",
+    "kami07",
+    "kami08",
+    "kami09",
+    "kami10"
   ]
 }
 
-
-# Groupe de ressources
+# Resources 
 
 resource "azurerm_resource_group" "kami_rg" {
   name     = "kami-rg"
   location = var.location
 }
 
-
-# Création du réseau et subnet
-
 resource "azurerm_virtual_network" "kami_vnet" {
   name                = var.vnet_name
-  address_space       = ["10.0.0.0/16"]
+  address_space       = var.vnet_address_space  # liste directement passée ici
   location            = var.location
   resource_group_name = azurerm_resource_group.kami_rg.name
 }
@@ -58,10 +65,8 @@ resource "azurerm_subnet" "kami_subnet" {
   name                 = var.subnet_name
   resource_group_name  = azurerm_resource_group.kami_rg.name
   virtual_network_name = azurerm_virtual_network.kami_vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = var.subnet_address_prefixes  # liste directement passée ici
 }
-
-# Création des comptes de stockage en boucle
 
 resource "azurerm_storage_account" "kami_storage" {
   for_each                 = toset(var.storage_account_names)
@@ -73,7 +78,6 @@ resource "azurerm_storage_account" "kami_storage" {
   account_kind             = "StorageV2"
   min_tls_version          = "TLS1_2"
 
-  # Sécuriser le compte de stockage pour n'autoriser que le subnet kami l'accès
   network_rules {
     default_action             = "Deny"
     bypass                     = ["AzureServices"]
