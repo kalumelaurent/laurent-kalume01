@@ -1,6 +1,6 @@
-###########################
+
 # Variables pour personnalisation
-###########################
+
 variable "location" {
   description = "Région Azure"
   type        = string
@@ -36,17 +36,17 @@ variable "storage_account_names" {
   ]
 }
 
-###########################
+
 # Groupe de ressources
-###########################
+
 resource "azurerm_resource_group" "kami_rg" {
   name     = "kami-rg"
   location = var.location
 }
 
-###########################
+
 # Création du réseau et subnet
-###########################
+
 resource "azurerm_virtual_network" "kami_vnet" {
   name                = var.vnet_name
   address_space       = ["10.0.0.0/16"]
@@ -61,9 +61,8 @@ resource "azurerm_subnet" "kami_subnet" {
   address_prefixes     = ["10.0.1.0/24"]
 }
 
-###########################
 # Création des comptes de stockage en boucle
-###########################
+
 resource "azurerm_storage_account" "kami_storage" {
   for_each                 = toset(var.storage_account_names)
   name                     = each.value
