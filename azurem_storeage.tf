@@ -1,5 +1,5 @@
 
-/*
+
 variable "location" {
   description = "Région Azure"
   type        = string
@@ -110,7 +110,7 @@ resource "azurerm_storage_account" "kami_storage" {
     virtual_network_subnet_ids = [azurerm_subnet.kami_subnet.id]
   }
 }
-*/
+
 
 
 # Objectif de cet exercice Terraform
