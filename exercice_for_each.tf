@@ -8,7 +8,7 @@ locals {
 }
 
 # Création multiple de groupes de ressources avec for_each sur la map
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "rgs" {
   for_each = local.resource_groups
 
   name     = each.key         # Les clés : rg-dev, rg-test, rg-prod
