@@ -14,3 +14,4 @@ resource "azurerm_resource_groups" "rg" {
   name     = each.key         # Les clés : rg-dev, rg-test, rg-prod
   location = each.value       # La valeur : "eastus" pour tous
 }
+
