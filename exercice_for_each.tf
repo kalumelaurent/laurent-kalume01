@@ -1,6 +1,6 @@
 # Déclarer un local ou variable avec le nom et la région pour chaque RG
 locals {
-  resource_groups = {
+  resource_groups2 = {
     "rg-dev"  = "eastus"
     "rg-test" = "eastus"
     "rg-prod" = "eastus"
@@ -8,7 +8,7 @@ locals {
 }
 
 # Création multiple de groupes de ressources avec for_each sur la map
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group2" "rg" {
   for_each = local.resource_groups
 
   name     = each.key         # Les clés : rg-dev, rg-test, rg-prod
