@@ -1,116 +1,150 @@
 
 
+# VARIABLES
+
+
+# Région Azure où les ressources seront créées
 variable "location" {
   description = "Région Azure"
   type        = string
   default     = "Canada Central"
 }
-#Ce que c’est : La région Azure où seront créées toutes tes ressources (exemple : Montréal).
 
-#Tu peux changer : La valeur par défaut "Canada Central" pour une autre région Azure comme "East US", "West Europe", etc.
+# Nom du groupe de ressources (un "dossier logique" qui regroupe les ressources Azure)
+variable "resource_group_name" {
+  description = "Nom du groupe de ressources"
+  type        = string
+  default     = "kami-rg"
+}
 
+# Nom du réseau virtuel (VNet = ton réseau privé dans Azure)
 variable "vnet_name" {
   description = "Nom du Virtual Network"
   type        = string
   default     = "kami"
 }
-#Ce que c’est : Le nom de ton réseau virtuel (VNet) dans Azure.
 
-#Tu peux changer : Le nom "kami" par un autre nom qui te convient (exemple "my-vnet").
-
-
+# Nom du sous-réseau (Subnet = une partie du VNet)
 variable "subnet_name" {
   description = "Nom du subnet"
   type        = string
   default     = "kami"
 }
-#Ce que c’est : Le nom du subnet créé dans ton VNet.
 
-#Tu peux changer : Le nom "kami" par ce que tu souhaites (exemple "internal-subnet").
-
-
+# Plage d'adresses IP du VNet (ici : 65 000 adresses possibles)
 variable "vnet_address_space" {
-  description = "Liste des plages d'adresses CIDR pour le VNet"
+  description = "Plages CIDR du VNet"
   type        = list(string)
   default     = ["10.0.0.0/16"]
 }
-#Ce que c’est : La plage d’adresses IP utilisée par ton VNet. Ici, c’est une liste, donc tu pourrais ajouter plusieurs plages.
 
-#Tu peux changer : Le CIDR "10.0.0.0/16" par d’autres plages compatibles avec ton réseau.
-
-
+# Plage IP attribuée au sous-réseau (ici : 256 adresses)
 variable "subnet_address_prefixes" {
-  description = "Liste des plages d'adresses CIDR pour le subnet"
+  description = "Plage CIDR du subnet"
   type        = list(string)
   default     = ["10.0.1.0/24"]
 }
-# Ce que c’est : La plage IP assignée à ton subnet à l’intérieur du VNet.
 
-# Tu peux changer : Le CIDR "10.0.1.0/24" pour une autre plage plus appropriée à ta segmentation réseau.
-
-
+# Liste des 10 comptes de stockage qui seront créés automatiquement
 variable "storage_account_names" {
-  description = "Noms des 10 comptes de stockage"
+  description = "Noms pour les comptes de stockage"
   type        = list(string)
   default     = [
     "kami01", "kami02", "kami03", "kami04", "kami05",
     "kami06", "kami07", "kami08", "kami09", "kami10"
   ]
 }
-# Ce que c’est : La liste des noms que tu souhaites donner à tes dix comptes de stockage Azure.
 
-# Tu peux changer : Ces noms pour refléter ta convention de nommage ou structure.
+# Niveau de performance du stockage (Standard = pas cher, Premium = rapide)
+variable "account_tier" {
+  description = "Type de performance du compte de stockage (Standard ou Premium)"
+  type        = string
+  default     = "Standard"
+}
 
-####Ressources
+# Type de réplication (LRS = local, GRS = multi-région)
+variable "account_replication_type" {
+  description = "Type de réplication du compte de stockage (LRS, GRS, etc.)"
+  type        = string
+  default     = "LRS"
+}
 
+# Type de compte (StorageV2 recommandé car moderne et complet)
+variable "account_kind" {
+  description = "Type du compte de stockage (StorageV2, BlobStorage, etc.)"
+  type        = string
+  default     = "StorageV2"
+}
+
+# Sécurité minimale des connexions (TLS1_2 conseillé)
+variable "min_tls_version" {
+  description = "Version minimale TLS à autoriser (TLS1_0, TLS1_1, TLS1_2, TLS1_3)"
+  type        = string
+  default     = "TLS1_2"
+}
+
+# Firewall stockage : comportement par défaut (Deny = tout bloquer sauf exceptions)
+variable "storage_account_default_action" {
+  description = "Comportement par défaut du firewall réseau du stockage ('Allow' ou 'Deny')"
+  type        = string
+  default     = "Deny"
+}
+
+# Quels services Azure peuvent bypasser le firewall (ex : AzureServices)
+variable "storage_account_bypass" {
+  description = "Liste des services Azure qui peuvent bypasser le firewall (ex: AzureServices, Logging, Metrics, None)"
+  type        = list(string)
+  default     = ["AzureServices"]
+}
+
+
+# RESSOURCES
+
+
+# Création du groupe de ressources (notre "dossier" Azure)
 resource "azurerm_resource_group" "kami_rg" {
-  name     = "kami-rg"
+  name     = var.resource_group_name
   location = var.location
 }
-# C’est le conteneur principal (resource group) qui regroupera tous tes objets Azure.
 
-# Tu peux changer : Le nom "kami-rg" selon ta politique de nommage.
-
-
+# Création du réseau virtuel (VNet = autoroute privée dans Azure)
 resource "azurerm_virtual_network" "kami_vnet" {
   name                = var.vnet_name
   address_space       = var.vnet_address_space
   location            = var.location
   resource_group_name = azurerm_resource_group.kami_rg.name
 }
-# Création du VNet en utilisant les variables pour nom, adresse IP, site.
 
-# Change les variables pour personnaliser ce réseau virtuel.
-
-
+# Création du sous-réseau (Subnet = une zone dans le VNet)
 resource "azurerm_subnet" "kami_subnet" {
   name                 = var.subnet_name
-  resource_group_name  = azurerm_resource_group.kami_rg.name
-  virtual_network_name = azurerm_virtual_network.kami_vnet.name
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = var.vnet_name
   address_prefixes     = var.subnet_address_prefixes
 }
-# Création du subnet dans le VNet avec variables pour nom et plage d’adresses.
 
-# À modifier via variables si tu veux un autre subnet.
-
-
+# Création de 10 comptes de stockage sécurisés
 resource "azurerm_storage_account" "kami_storage" {
+  # for_each = crée automatiquement un compte par nom dans la liste storage_account_names
   for_each                 = toset(var.storage_account_names)
   name                     = each.value
   resource_group_name      = azurerm_resource_group.kami_rg.name
   location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-  account_kind             = "StorageV2"
-  min_tls_version          = "TLS1_2"
+  account_tier             = var.account_tier
+  account_replication_type = var.account_replication_type
+  account_kind             = var.account_kind
+  min_tls_version          = var.min_tls_version
 
+  # Sécurité réseau : firewall appliqué au stockage
   network_rules {
-    default_action             = "Deny"
-    bypass                     = ["AzureServices"]
+    # Tout est bloqué par défaut
+    default_action             = var.storage_account_default_action
+    # Certains services Azure peuvent passer même avec le firewall
+    bypass                     = var.storage_account_bypass
+    # Autoriser uniquement les ressources de NOTRE subnet
     virtual_network_subnet_ids = [azurerm_subnet.kami_subnet.id]
   }
 }
-
 
 
 # Objectif de cet exercice Terraform
