@@ -1,3 +1,6 @@
+
+
+
 linux_app:
   - name: magne1-rg
     resource_group: magne1-rg
