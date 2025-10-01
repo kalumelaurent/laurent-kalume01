@@ -1,36 +1,36 @@
 /*
-# 1. Groupe de ressources pour centraliser toutes les ressources
+# 1. Groupe de ressources = boîte de rangement pour tout centraliser
 resource "azurerm_resource_group" "rg" {
   name     = "waf-demo-rg"
   location = "Canada Central"
 }
 
-# 2. VNet pour réseaux internes (obligatoire pour Application Gateway)
+# 2. VNet = plan des routes principales de la ville (obligatoire pour Application Gateway)
 resource "azurerm_virtual_network" "vnet" {
   name                = "demo-vnet"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = ["10.0.0.0/16"]                  # grandes rues avec une plage d'adresses
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# 3. Subnet dédié Application Gateway
+# 3. Subnet = un quartier spécial réservé au Application Gateway
 resource "azurerm_subnet" "appgw_subnet" {
   name                 = "appgw-subnet"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = ["10.0.1.0/24"]                 # petit bout du VNet pour ce quartier
 }
 
-# 4. IP publique pour exposer le Gateway sur Internet
+# 4. IP publique = l’adresse postale visible sur Internet (pour que les gens trouvent le Gateway)
 resource "azurerm_public_ip" "gw_ip" {
   name                = "waf-gw-ip"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
+  allocation_method   = "Static"                         # adresse fixe (ne change pas)
+  sku                 = "Standard"                       # type d’IP, nécessaire pour Application Gateway
 }
 
-# 5. Boucle pour créer dynamiquement 5 WAF policies différentes
+# 5. Création dynamique de 5 WAF Policies = les policiers qui surveillent et bloquent les intrus
 locals {
   waf_policy_names = [
     "demo-wafpolicy1",
@@ -42,34 +42,39 @@ locals {
 }
 
 resource "azurerm_web_application_firewall_policy" "policy" {
-  for_each           = toset(local.waf_policy_names)
-  name               = each.value
+  for_each            = toset(local.waf_policy_names)    # boucle : crée une policy pour chaque nom de la liste
+  name                = each.value                       # chaque policy prend un nom différent
   resource_group_name = azurerm_resource_group.rg.name
-  location           = azurerm_resource_group.rg.location
+  location            = azurerm_resource_group.rg.location
 
+  # Paramètres principaux du WAF
   policy_settings {
-    enabled = true
-    mode    = "Prevention"
+    enabled = true                                       # activé
+    mode    = "Prevention"                               # bloque vraiment (pas juste observer)
   }
+
+  # Règles de sécurité standards (OWASP = manuel de sécurité international)
   managed_rules {
     managed_rule_set {
       type    = "OWASP"
       version = "3.2"
     }
   }
-  # Exemple de règle custom simple (identique pour chaque policy ici, modifiable selon tes besoins)
+
+  # Exemple de règle personnalisée = consigne spéciale aux policiers
   custom_rules {
     name      = "BlockIPs"
     priority  = 1
     rule_type = "MatchRule"
-    action    = "Block"
+    action    = "Block"                                  # bloquer si la règle est respectée
     match_conditions {
-      match_variables { variable_name = "RemoteAddr" }
+      match_variables { variable_name = "RemoteAddr" }   # surveille l’adresse IP source
       operator     = "IPMatch"
-      match_values = ["1.2.3.4"]
+      match_values = ["1.2.3.4"]                         # bloque cet IP précis
     }
   }
 }
+
 */
 
 
