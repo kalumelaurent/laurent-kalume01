@@ -1,37 +1,86 @@
-# Variable contenant la liste des noms des applications
+
+# VARIABLE - Liste des applications à créer
+
 variable "apps" {
   description = "Liste des noms des applications Web à créer"
   type        = list(string)
+
+  # Pourquoi ?
+  # On définit ici les noms des applications sous forme de liste.
+  # Cela permet d'éviter de dupliquer le code pour chaque application.
+  # Si on ajoute ou retire un nom dans cette liste, Terraform créera ou supprimera automatiquement l'application correspondante.
   default     = ["inovocb-api", "riidoz-ui", "gamecb-core"]
 }
 
-# Groupe de ressources où seront créées les ressources
+
+# RESOURCE GROUP - Conteneur logique Azure
+
 resource "azurerm_resource_group" "rg" {
+  # Nom du Resource Group
   name     = "my-resource-group"
+
+  # Région où seront déployées les ressources
   location = "Canada Central"
+
+  # Pourquoi ?
+  # Sur Azure, toutes les ressources doivent être dans un Resource Group.
+  # Il sert de "boîte" logique pour organiser, gérer, et supprimer toutes les ressources d'un projet en une seule action.
 }
 
-# Création d'un seul plan App Service partagé pour toutes les applications
+
+# APP SERVICE PLAN - Machine partagée
+
 resource "azurerm_service_plan" "plan" {
+  # Nom du plan App Service
   name                = "asp-shared"
+
+  # On réutilise la localisation et le resource group définis plus haut
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+
+  # OS utilisé par toutes les applis
   os_type             = "Linux"
-  sku_name            = "B1"  # Tier Basic, économique
+
+  # Tier (niveau) du plan : B1 = Basic, peu coûteux
+  sku_name            = "B1"
+
+  # Pourquoi ?
+  # Le plan définit les ressources physiques (CPU, RAM) utilisées par les apps.
+  # Ici, un seul plan est partagé par toutes les applications → c’est économique
+  # et plus simple à gérer (si on upgrade le plan, toutes les apps bénéficient de la nouvelle capacité).
 }
 
-# Création dynamique de plusieurs Azure Linux Web Apps à partir de la variable "apps"
+
+# WEB APPS LINUX - Création dynamique
+
 resource "azurerm_linux_web_app" "app" {
-  for_each            = toset(var.apps)   # boucle sur la liste convertie en set
-  name                = each.value         # nom de chaque application Web
+  # On boucle sur la liste des apps définies dans la variable.
+  # Chaque nom de la liste devient une Web App distincte.
+  for_each            = toset(var.apps)
+
+  # Nom de l'application = valeur courante dans la boucle (inovocb-api, riidoz-ui, etc.)
+  name                = each.value
+
+  # Même localisation et même Resource Group que défini plus haut
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  service_plan_id     = azurerm_service_plan.plan.id  # toutes partagent le même service plan
 
+  # Chaque application Web est reliée au plan App Service partagé
+  service_plan_id     = azurerm_service_plan.plan.id
+
+  # Configuration du site Web
   site_config {
     application_stack {
-      node_version = "18-lts"   # runtime Node.js 18 Long Term Support pour chaque app
+      # On définit ici la stack technique utilisée.
+      # Chaque application tourne avec Node.js en version 18 LTS (support long terme).
+      node_version = "18-lts"
     }
   }
-}
 
+  # Pourquoi ?
+  # Grâce au "for_each", on peut créer automatiquement plusieurs Web Apps
+  # sans répéter du code. C’est flexible et scalable :
+  # - On ajoute un nouveau nom dans la variable "apps" → une nouvelle app est déployée.
+  # - On supprime un nom → l’app correspondante est détruite.
+  # Cela rend le code propre, modulaire et facile à maintenir.
+}
