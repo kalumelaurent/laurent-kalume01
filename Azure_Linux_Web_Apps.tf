@@ -83,4 +83,4 @@ resource "azurerm_linux_web_app" "app" {
   # - On ajoute un nouveau nom dans la variable "apps" → une nouvelle app est déployée.
   # - On supprime un nom → l’app correspondante est détruite.
   # Cela rend le code propre, modulaire et facile à maintenir.
-}
+
