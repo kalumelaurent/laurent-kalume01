@@ -1,6 +1,6 @@
 
 # VARIABLE - Liste des applications à créer
-
+/*
 variable "apps" {
   description = "Liste des noms des applications Web à créer"
   type        = list(string)
@@ -76,7 +76,7 @@ resource "azurerm_linux_web_app" "app" {
       node_version = "18-lts"
     }
   }
-
+*/
   # Pourquoi ?
   # Grâce au "for_each", on peut créer automatiquement plusieurs Web Apps
   # sans répéter du code. C’est flexible et scalable :
