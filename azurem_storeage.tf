@@ -2,7 +2,7 @@
 
 # VARIABLES
 
-
+/*
 # Région Azure où les ressources seront créées
 variable "location" {
   description = "Région Azure"
@@ -145,6 +145,8 @@ resource "azurerm_storage_account" "kami_storage" {
     virtual_network_subnet_ids = [azurerm_subnet.kami_subnet.id]
   }
 }
+
+*/
 
 
 # Objectif de cet exercice Terraform
