@@ -22,6 +22,12 @@ provider "azurerm"{
 
 
 
+random = {
+     source  = "hashicorp/random"
+     version = ">= 3.6.0"
+   }
+ }
+}
 # --------------------------
 # Config (edit if you want)
 # --------------------------
@@ -62,7 +68,7 @@ locals {
 # --------------------------
 # Resource Group
 # --------------------------
-resource "azurerm_resource_group" "rgl" {
+resource "azurerm_resource_group" "rg" {
  name     = local.rg_name
  location = var.location
 }
