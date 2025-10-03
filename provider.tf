@@ -25,14 +25,14 @@ provider "azurerm"{
 
   random = {
       source  = "hashicorp/random"
-      version = ">= 3.6.0" # version du provider random
+      version = ">= 3.6.0" # version du provider Random
     }
   }
 }
 
-# --------------------------
-# Provider Azure avec authentification par Service Principal
-# --------------------------
+#########################################################
+# PROVIDER AZURE
+#########################################################
 provider "azurerm" {
   features {}
   subscription_id = var.subscription_id
@@ -41,9 +41,9 @@ provider "azurerm" {
   tenant_id       = var.tenant_id
 }
 
-# --------------------------
-# Variables d’auth Azure
-# --------------------------
+#########################################################
+# VARIABLES D’AUTHENTIFICATION
+#########################################################
 variable "subscription_id" {
   type        = string
   description = "Azure Subscription ID"
@@ -62,9 +62,9 @@ variable "tenant_id" {
   description = "Azure Tenant ID"
 }
 
-# --------------------------
-# Config générale
-# --------------------------
+#########################################################
+# VARIABLES GÉNÉRALES
+#########################################################
 variable "location" {
   type        = string
   default     = "Canada Central"
@@ -81,9 +81,9 @@ variable "publisher_email" {
   default     = "admin@mcit.com"
 }
 
-# --------------------------
-# Random suffix so APIM name is globally unique
-# --------------------------
+#########################################################
+# RANDOM SUFFIX POUR NOM UNIQUE
+#########################################################
 resource "random_string" "apim_suffix" {
   length  = 5
   upper   = false
@@ -91,10 +91,13 @@ resource "random_string" "apim_suffix" {
   special = false
 }
 
+#########################################################
+# LOCALS (noms + APIs)
+#########################################################
 locals {
   rg_name   = "rg-apim-product-mcit"
   apim_name = "mcit-apim-${random_string.apim_suffix.result}"
-  # Define the 5 APIs here
+
   apis = {
     api1 = { display_name = "API One",   path = "api-one"   }
     api2 = { display_name = "API Two",   path = "api-two"   }
@@ -102,33 +105,33 @@ locals {
     api4 = { display_name = "API Four",  path = "api-four"  }
     api5 = { display_name = "API Five",  path = "api-five"  }
   }
-  # Mcit OpenAPI to import (Swagger Petstore)
+
   mcit_openapi_url = "https://petstore.swagger.io/v2/swagger.json"
 }
 
-# --------------------------
-# Resource Group
-# --------------------------
+#########################################################
+# RESOURCE GROUP
+#########################################################
 resource "azurerm_resource_group" "rg" {
   name     = local.rg_name
   location = var.location
 }
 
-# --------------------------
-# API Management (Developer SKU)
-# --------------------------
+#########################################################
+# API MANAGEMENT INSTANCE
+#########################################################
 resource "azurerm_api_management" "apim" {
   name                = local.apim_name
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   publisher_name      = var.publisher_name
   publisher_email     = var.publisher_email
-  sku_name            = "Developer_1" # Dev/test; not for prod traffic
+  sku_name            = "Developer_1" # Dev/test SKU
 }
 
-# --------------------------
-# Product
-# --------------------------
+#########################################################
+# PRODUCT
+#########################################################
 resource "azurerm_api_management_product" "starter" {
   product_id            = "starter"
   api_management_name   = azurerm_api_management.apim.name
@@ -140,9 +143,9 @@ resource "azurerm_api_management_product" "starter" {
   published             = true
 }
 
-# --------------------------
-# 5 APIs via for_each
-# --------------------------
+#########################################################
+# 5 APIs VIA for_each
+#########################################################
 resource "azurerm_api_management_api" "apis" {
   for_each            = local.apis
   name                = each.key
@@ -159,9 +162,9 @@ resource "azurerm_api_management_api" "apis" {
   }
 }
 
-# --------------------------
-# Attach all APIs to the Product
-# --------------------------
+#########################################################
+# ATTACHER LES APIs AU PRODUCT
+#########################################################
 resource "azurerm_api_management_product_api" "starter_apis" {
   for_each            = azurerm_api_management_api.apis
   api_name            = each.value.name
@@ -170,9 +173,9 @@ resource "azurerm_api_management_product_api" "starter_apis" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# --------------------------
-# Optional: Dev user + subscription to get a key
-# --------------------------
+#########################################################
+# DEV USER + SUBSCRIPTION
+#########################################################
 resource "azurerm_api_management_user" "dev" {
   api_management_name = azurerm_api_management.apim.name
   resource_group_name = azurerm_resource_group.rg.name
@@ -191,9 +194,9 @@ resource "azurerm_api_management_subscription" "starter_sub" {
   user_id             = azurerm_api_management_user.dev.user_id
 }
 
-# --------------------------
-# Outputs
-# --------------------------
+#########################################################
+# OUTPUTS
+#########################################################
 output "apim_gateway_base_url" {
   description = "Gateway base URL (may be empty until APIM is fully provisioned)"
   value       = azurerm_api_management.apim.gateway_url
