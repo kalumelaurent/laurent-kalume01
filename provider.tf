@@ -62,7 +62,7 @@ locals {
 # --------------------------
 # Resource Group
 # --------------------------
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "rgl" {
  name     = local.rg_name
  location = var.location
 }
