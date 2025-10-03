@@ -21,12 +21,7 @@ provider "azurerm"{
 
 
 
-random = {
-     source  = "hashicorp/random"
-     version = ">= 3.6.0"
-   }
- }
-}
+
 # --------------------------
 # Config (edit if you want)
 # --------------------------
