@@ -23,19 +23,47 @@ provider "azurerm"{
 
 
 
- random = {
+  random = {
       source  = "hashicorp/random"
-      version = ">= 3.6.0"
+      version = ">= 3.6.0" # version du provider random
     }
   }
 }
 
+# --------------------------
+# Provider Azure avec authentification par Service Principal
+# --------------------------
 provider "azurerm" {
   features {}
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
 }
 
 # --------------------------
-# Config (edit if you want)
+# Variables d’auth Azure
+# --------------------------
+variable "subscription_id" {
+  type        = string
+  description = "Azure Subscription ID"
+}
+variable "client_id" {
+  type        = string
+  description = "Azure Client ID (App registration)"
+}
+variable "client_secret" {
+  type        = string
+  description = "Azure Client Secret"
+  sensitive   = true
+}
+variable "tenant_id" {
+  type        = string
+  description = "Azure Tenant ID"
+}
+
+# --------------------------
+# Config générale
 # --------------------------
 variable "location" {
   type        = string
@@ -53,7 +81,9 @@ variable "publisher_email" {
   default     = "admin@mcit.com"
 }
 
+# --------------------------
 # Random suffix so APIM name is globally unique
+# --------------------------
 resource "random_string" "apim_suffix" {
   length  = 5
   upper   = false
@@ -157,9 +187,8 @@ resource "azurerm_api_management_subscription" "starter_sub" {
   display_name        = "Starter Subscription"
   api_management_name = azurerm_api_management.apim.name
   resource_group_name = azurerm_resource_group.rg.name
-  # use product_id (not the resource id)
-  product_id = azurerm_api_management_product.starter.product_id
-  user_id    = azurerm_api_management_user.dev.user_id
+  product_id          = azurerm_api_management_product.starter.product_id
+  user_id             = azurerm_api_management_user.dev.user_id
 }
 
 # --------------------------
