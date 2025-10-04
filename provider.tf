@@ -1,31 +1,25 @@
-terraform{
-  required_providers{
-    azurerm={
-      source="hashicorp/azurerm"
-      version= ">=3.70.0"#this version is for azurerm, NOT terraform version
+terraform {
+  required_version = ">= 1.5.0"
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = ">= 4.40.0, < 5.0.0"
     }
-random = {
+    random = {
       source  = "hashicorp/random"
       version = ">= 3.6.0"
     }
-
   }
-  required_version=">=1.4.0"#this version is for Terraform Version, NOT azurerm
 }
 
-provider "azurerm"{
-  features{}  
-  subscription_id=var.subscription_id
-  client_id=var.client_id
-  client_secret=var.client_secret
-  tenant_id=var.tenant_id
+provider "azurerm" {
+  features {}
+
+  subscription_id = var.subscription_id
+  client_id       = var.client_id
+  client_secret   = var.client_secret
+  tenant_id       = var.tenant_id
 }
-
-
-
-
-
-
 
 variable "subscription_id" { type = string }
 variable "client_id" { type = string }
@@ -48,6 +42,12 @@ variable "publisher_email" {
   default = "admin@mcit.com"
 }
 
+resource "random_string" "apim_suffix" {
+  length  = 5
+  upper   = false
+  numeric = true
+  special = false
+}
 
 locals {
   rg_name   = "rg-apim-product-mcit"
@@ -63,7 +63,6 @@ locals {
 
   mcit_openapi_url = "https://petstore.swagger.io/v2/swagger.json"
 }
-
 
 resource "azurerm_resource_group" "rg" {
   name     = local.rg_name
@@ -131,7 +130,6 @@ resource "azurerm_api_management_subscription" "starter_sub" {
   product_id          = azurerm_api_management_product.starter.id
   user_id             = azurerm_api_management_user.dev.id
 }
-
 
 output "apim_gateway_base_url" {
   description = "Gateway base URL"
