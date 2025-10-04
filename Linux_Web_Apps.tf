@@ -1,6 +1,6 @@
 
 # VARIABLE QUI LISTE LES APPLICATIONS WEB     
-
+/*
 variable "webapps" {
   type = list(object({
     name         = string   # le nom de l'application
@@ -94,7 +94,7 @@ resource "azurerm_linux_web_app" "app" {
   }
 }
 
-
+*/
 # En gros : maintenant qu’on a la boîte (Resource Group) et la machine (App Service Plan), on installe l’application dessus.
 # Ici toutes les applis utilisent Node.js 18 comme langage.
 
