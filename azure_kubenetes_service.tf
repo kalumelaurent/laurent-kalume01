@@ -1,3 +1,5 @@
+/*
+
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"         # Nom logique du groupe de ressources
   location = "West Europe"               # Choisis la région Azure qui t'arrange
@@ -35,3 +37,4 @@ output "kube_config" {
   sensitive = true   # Empêche l’exposition accidentelle dans les logs
 }
 
+*/
