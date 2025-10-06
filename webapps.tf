@@ -1,4 +1,4 @@
-
+/*
 
 # Variable pour définir le pays cible
 # On crée une variable pour savoir dans quel pays on veut déployer nos ressources.
@@ -88,6 +88,6 @@ resource "azurerm_windows_web_app" "example" {
   }
 }
 
-
+*/
 # En résumé :
 # Cet exercice montre comment automatiser le déploiement de plusieurs applications Windows sur Azure, tout en gardant le code réutilisable et dynamique grâce aux variables et for_each
