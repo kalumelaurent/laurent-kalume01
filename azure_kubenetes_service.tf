@@ -7,7 +7,7 @@ resource "azurerm_resource_group" "aks_rg" {
   location = var.location              # Région Azure à utiliser → modifiable (ex: "Canada Central", "France Central")
 }
 
-# 💬 Le groupe de ressources agit comme un dossier logique
+# Le groupe de ressources agit comme un dossier logique
 # pour ranger toutes tes ressources Azure : le cluster, le réseau, les disques, etc.
 
 
