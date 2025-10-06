@@ -132,7 +132,7 @@ output "replace_burger" {
   # Ici, la fonction remplace la première sous-chaîne trouvée ("bur") par "cheese",
   # ce qui transforme "burger" en "cheeseger".
 }
-
+/*
 # Utilise la fonction replace avec une expression régulière pour remplacer toutes les voyelles par "*"
 # Le motif /[aeiou]/ indique une voyelle (a, e, i, o ou u)
 output "marriott_vowels_masked" {
@@ -140,7 +140,7 @@ output "marriott_vowels_masked" {
   # Cette ligne recherche chaque voyelle dans la chaîne "Marriott"
   # et la remplace par "*". Résultat : "M*rr**tt"
 }
-
+*/
 
 # Output affichant le résultat de l'inversion de la chaîne "Hilton"
 # Cela permet d’obtenir `"notliH"` en sortie, ce qui montre comment transformer dynamiquement les valeurs de vos variables sous forme de chaîne
