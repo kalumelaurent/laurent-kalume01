@@ -186,13 +186,13 @@ variable "foods1" {
   default = ["Pizza", "Burger", "Sushi", "Tacos"]
 }
 
-
+/*
 # Nom du projet, utilisé comme préfixe pour les ressources Azure
 variable "project_name" {
   type    = string
   default = "mywebapp"
 }
-
+*?
 /*
 # Région Azure où les ressources seront déployées
 variable "location" {
