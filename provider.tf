@@ -13,7 +13,7 @@ terraform {
   }
 }
 
-/*
+
 provider "azurerm" {
   features {}
 
@@ -162,4 +162,4 @@ output "subscription_primary_key" {
   value       = azurerm_api_management_subscription.starter_sub.primary_key
 }
 
-*/
+
