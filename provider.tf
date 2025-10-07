@@ -69,7 +69,7 @@ locals {
   mcit_openapi_url = "https://petstore.swagger.io/v2/swagger.json"
 }
 
-resource "azurerm_resource_group" "rg" {
+resource "azurerm_resource_group" "rg1" {
   name     = local.rg_name
   location = var.location
 }
