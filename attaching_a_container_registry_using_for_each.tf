@@ -78,7 +78,7 @@ resource "azurerm_role_assignment" "acr_pull" {
 
 
 #  Région Azure
-variable "location" {
+variable "locationcluter" {
   type        = string
   default     = "Canada Central"
 }
