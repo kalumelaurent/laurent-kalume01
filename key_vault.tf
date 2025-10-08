@@ -1,22 +1,26 @@
 
 
-# VARIABLES
 
+#  VARIABLES
 
-# Région de déploiement
+# Nouvelle variable renommée : location2
 variable "location2" {
   type    = string
   default = "Canada Central"
 }
 
-# Préfixe pour nommer les ressources
 variable "prefix" {
   type    = string
   default = "montrealitcollege"
 }
 
+variable "tenant_id" {
+  type        = string
+  description = "AAD tenant ID (pour KeyVault, ML, etc.)"
+}
 
-#  RANDOM STRING POUR NOM UNIQUE
+
+# RANDOM STRING POUR NOM UNIQUE
 
 resource "random_string" "suffix" {
   length  = 6
@@ -29,16 +33,15 @@ resource "random_string" "suffix" {
 
 resource "azurerm_resource_group" "ml_rg" {
   name     = "${var.prefix}-rg"
-  location = var.location2
-}
+  location = var.location2             
 
 
 #  STORAGE ACCOUNT
 
 resource "azurerm_storage_account" "ml_storage" {
-  name                     = substr(lower("${var.prefix}st${random_string.suffix.result}"), 0, 24)
+  name                     = substr(lower("${var.prefix}st${random_string.suffix.result}"),0,24)
   resource_group_name      = azurerm_resource_group.ml_rg.name
-  location                 = var.location2
+  location                 = var.location2            
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
@@ -49,21 +52,19 @@ resource "azurerm_storage_account" "ml_storage" {
 resource "azurerm_key_vault" "ml_kv" {
   name                        = "${var.prefix}kv${random_string.suffix.result}"
   resource_group_name         = azurerm_resource_group.ml_rg.name
-  location                    = var.location2
-
-  #  On récupère automatiquement le tenant_id avec le provider Azure
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-
+  location                    = var.location2            
+  tenant_id                   = var.tenant_id
   sku_name                    = "standard"
   purge_protection_enabled    = true
   soft_delete_retention_days  = 7
 }
 
+
 #  APPLICATION INSIGHTS
-###############################
+
 resource "azurerm_application_insights" "ml_appi" {
   name                = "${var.prefix}-appi"
-  location            = var.location2
+  location            = var.location2             
   resource_group_name = azurerm_resource_group.ml_rg.name
   application_type    = "web"
 }
@@ -74,7 +75,7 @@ resource "azurerm_application_insights" "ml_appi" {
 resource "azurerm_container_registry" "ml_acr" {
   name                = "${var.prefix}acr${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.ml_rg.name
-  location            = var.location2
+  location            = var.location2             # 🔄 remplacé ici
   sku                 = "Basic"
   admin_enabled       = true
 }
@@ -84,7 +85,7 @@ resource "azurerm_container_registry" "ml_acr" {
 
 resource "azurerm_machine_learning_workspace" "ml_ws" {
   name                          = "${var.prefix}-ws"
-  location                      = var.location2
+  location                      = var.location2            
   resource_group_name           = azurerm_resource_group.ml_rg.name
   storage_account_id            = azurerm_storage_account.ml_storage.id
   key_vault_id                  = azurerm_key_vault.ml_kv.id
@@ -104,10 +105,7 @@ resource "azurerm_machine_learning_workspace" "ml_ws" {
 
 resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
   key_vault_id = azurerm_key_vault.ml_kv.id
-
-  #  On utilise le tenant récupéré automatiquement
-  tenant_id    = data.azurerm_client_config.current.tenant_id
-
+  tenant_id    = var.tenant_id
   object_id    = azurerm_machine_learning_workspace.ml_ws.identity[0].principal_id
 
   secret_permissions      = ["Get", "List", "Set", "Delete", "Purge", "Recover", "Backup", "Restore"]
@@ -120,7 +118,7 @@ resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
 
 resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
   name                = "${var.prefix}-cpu"
-  location            = var.location2
+  location            = var.location2          
   resource_group_name = azurerm_resource_group.ml_rg.name
   workspace_name      = azurerm_machine_learning_workspace.ml_ws.name
 
@@ -139,8 +137,14 @@ output "resource_group" {
   value = azurerm_resource_group.ml_rg.name
 }
 
+output "workspace_name" {
+  value = azurerm_machine_learning_workspace.ml_ws.name
+}
 
-#  DATA SOURCE (AJOUTÉE)
+output "storage_account" {
+  value = azurerm_storage_account.ml_storage.name
+}
 
-# Ce bloc récupère automatiquement ton tenant_id Azure
-data "azurerm_client_config" "current" {}
+output "container_registry" {
+  value = azurerm_container_registry.ml_acr.name
+}
