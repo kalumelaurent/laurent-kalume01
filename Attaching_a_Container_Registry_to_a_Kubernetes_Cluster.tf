@@ -72,7 +72,7 @@ output "acr_login_server" {
 
 output "kube_config" {
   value     = azurerm_kubernetes_cluster.example.kube_config_raw  # Fichier de configuration du cluster (kubeconfig)
-  sensitive = true                                                # Masqué pour éviter d’exposer des données sensibles
+  sensitive = true   # Masqué pour éviter d’exposer des données sensibles
 
-
+}
 
