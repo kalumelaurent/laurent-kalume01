@@ -76,3 +76,15 @@ output "kube_config" {
 
 }
 
+
+
+ # En résumé simple
+
+#  L’objectif de cet exercice est de :
+#	 créer un groupe de ressources pour ranger tout,
+#	 créer un registre de conteneurs (ACR) pour stocker les images Docker,
+#  créer un cluster Kubernetes (AKS) pour exécuter ces images,
+#  donner à AKS la permission d’accéder à ACR,
+#  et afficher les infos utiles à la fin (adresse du registre et configuration du cluster).
+
+## En résumé : je  prépares un environnement dans Azure pour stocker et lancer des applications Docker.
