@@ -1,6 +1,5 @@
 
 
-/*
 
 resource "azurerm_resource_group" "example" {
   name     = "example-resources"
@@ -56,4 +55,3 @@ output "kube_config" {
   sensitive = true
 }
 
-*/
