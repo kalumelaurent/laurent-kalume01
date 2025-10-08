@@ -153,3 +153,24 @@ output "resource_group_name" {
   value = azurerm_resource_group.rg.name
   # Nom du Resource Group (Kami)
 }
+
+
+# Objectif principal :
+
+# Déployer un environnement cloud automatisé où :
+#	1.	 Un Resource Group (Kami) sert de dossier principal.
+#	2.	 Plusieurs Azure Container Registries (ACR) sont créés pour stocker les images Docker.
+#	3.	 Plusieurs Clusters Kubernetes (AKS) sont déployés pour exécuter ces images.
+# 	4.	 Chaque cluster AKS reçoit la permission d’accéder aux ACR pour tirer les images.
+
+
+
+# En résumé simple :
+
+# Cet exercice te montre comment utiliser Terraform pour automatiser la création :
+	#	de plusieurs registres de conteneurs (ACR),
+	#	de plusieurs clusters Kubernetes (AKS),
+	#	et de leur connexion entre eux.
+
+#  But final :
+# Avoir une infrastructure complète et répétable dans Azure pour héberger, gérer et déployer des applications Docker.
