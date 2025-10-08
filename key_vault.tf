@@ -65,19 +65,19 @@ resource "azurerm_application_insights" "ml_appi" {
   resource_group_name = azurerm_resource_group.ml_rg.name
   application_type    = "web"
 }
-/*
+
 
 #  CONTAINER REGISTRY (ACR)
 
 resource "azurerm_container_registry" "ml_acr" {
   name                = "${var.prefix}acr${random_string.suffix.result}"
   resource_group_name = azurerm_resource_group.ml_rg.name
-  location            = var.location2             # 🔄 remplacé ici
+  location            = var.location2             
   sku                 = "Basic"
   admin_enabled       = true
 }
 
-
+/*
 #  MACHINE LEARNING WORKSPACE
 
 resource "azurerm_machine_learning_workspace" "ml_ws" {
