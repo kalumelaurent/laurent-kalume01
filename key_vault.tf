@@ -33,7 +33,8 @@ resource "random_string" "suffix" {
 
 resource "azurerm_resource_group" "ml_rg" {
   name     = "${var.prefix}-rg"
-  location = var.location2             
+  location = var.location2  
+}
 
 
 #  STORAGE ACCOUNT
