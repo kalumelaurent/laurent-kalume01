@@ -110,7 +110,7 @@ resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
   certificate_permissions = ["Get", "List"]
 }
 
-/*
+
 #  MACHINE LEARNING COMPUTE CLUSTER
 
 resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
@@ -126,7 +126,7 @@ resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
     max_node_count = 1
   }
 }
-
+/*
 
 #  OUTPUTS
 
