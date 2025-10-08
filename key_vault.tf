@@ -55,7 +55,7 @@ resource "azurerm_key_vault" "ml_kv" {
   purge_protection_enabled    = true
   soft_delete_retention_days  = 7
 }
-
+/*
 
 #  APPLICATION INSIGHTS
 
@@ -145,3 +145,4 @@ output "storage_account" {
 output "container_registry" {
   value = azurerm_container_registry.ml_acr.name
 }
+*/
