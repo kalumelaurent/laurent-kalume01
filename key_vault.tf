@@ -77,7 +77,7 @@ resource "azurerm_container_registry" "ml_acr" {
   admin_enabled       = true
 }
 
-/*
+
 #  MACHINE LEARNING WORKSPACE
 
 resource "azurerm_machine_learning_workspace" "ml_ws" {
@@ -97,7 +97,7 @@ resource "azurerm_machine_learning_workspace" "ml_ws" {
   description = "Terraform-provisioned Azure ML workspace"
 }
 
-
+/*
 #  KEY VAULT ACCESS POLICY
 
 resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
