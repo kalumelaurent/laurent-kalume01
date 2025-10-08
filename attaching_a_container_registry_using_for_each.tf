@@ -95,7 +95,7 @@ variable "acr_names" {
   default = ["mcitacr1", "mcitacr2", "mcitacr3"]
 }
 
-# ⚙️ Type de ACR
+#  Type de ACR
 variable "acr_sku" {
   type        = string
   default     = "Standard"
@@ -107,7 +107,7 @@ variable "cluster_names" {
   default = ["mcit-aks-1", "mcit-aks-2", "mcit-aks-3", "mcit-aks-4", "mcit-aks-5"]
 }
 
-# 💻 Taille et nombre de nœuds
+#  Taille et nombre de nœuds
 variable "vm_size" {
   type        = string
   default     = "Standard_B2s"
@@ -144,7 +144,7 @@ output "aks_list" {
   value = [for k, v in azurerm_kubernetes_cluster.aks : v.name]
 }
 
-# 📂 Resource Group
+#  Resource Group
 output "resource_group_name" {
   value = azurerm_resource_group.rg.name
 }
