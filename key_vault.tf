@@ -13,10 +13,7 @@ variable "prefix" {
   default = "montrealitcollege"
 }
 
-variable "tenant_id" {
-  type        = string
-  description = "AAD tenant ID (pour KeyVault, ML, etc.)"
-}
+
 
 
 # RANDOM STRING POUR NOM UNIQUE
