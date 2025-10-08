@@ -11,7 +11,7 @@ resource "azurerm_resource_group" "rg" {
 #  Azure Container Registries (ACR)
 
 # Crée plusieurs ACR à partir d'une liste var.acr_names
-resource "azurerm_container_registry" "acr2" {
+resource "azurerm_container_registry" "acr" {
   for_each            = toset(var.acr_names)
   name                = each.key                     # ex: mcitacr1, mcitacr2
   resource_group_name = azurerm_resource_group.rg.name
