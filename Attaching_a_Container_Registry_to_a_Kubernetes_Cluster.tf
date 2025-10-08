@@ -63,7 +63,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
 variable "location" {
   description = "Région où déployer les ressources Azure"
   type        = string
-  default     = "Canada Central"   Tu peux mettre "France Central", "East US", etc.
+  default     = "Canada Central"   #Tu peux mettre "France Central", "East US", etc.
 }
 
 #  Nom du groupe de ressources
