@@ -97,7 +97,7 @@ resource "azurerm_machine_learning_workspace" "ml_ws" {
   description = "Terraform-provisioned Azure ML workspace"
 }
 
-/*
+
 #  KEY VAULT ACCESS POLICY
 
 resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
@@ -110,7 +110,7 @@ resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
   certificate_permissions = ["Get", "List"]
 }
 
-
+/*
 #  MACHINE LEARNING COMPUTE CLUSTER
 
 resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
