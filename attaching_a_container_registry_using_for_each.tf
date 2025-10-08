@@ -66,6 +66,9 @@ resource "azurerm_kubernetes_cluster" "aks" {
 
 
 #  ATTRIBUTION DES PERMISSIONS ENTRE AKS ET ACR
+# La connexion se fait ici, dans la ressource azurerm_role_assignment,
+# parce que c’est là qu’on autorise le cluster AKS à accéder au registre ACR.
+# Sans cette partie, Kubernetes ne pourrait pas télécharger ni exécuter les applications Docker.
 
 # Objectif : donner à chaque cluster AKS la permission de "tirer" (pull) les images Docker
 # depuis le premier ACR créé (ACR principal).
