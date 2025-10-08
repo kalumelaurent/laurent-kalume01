@@ -55,7 +55,7 @@ resource "azurerm_key_vault" "ml_kv" {
   purge_protection_enabled    = true
   soft_delete_retention_days  = 7
 }
-/*
+
 
 #  APPLICATION INSIGHTS
 
@@ -65,7 +65,7 @@ resource "azurerm_application_insights" "ml_appi" {
   resource_group_name = azurerm_resource_group.ml_rg.name
   application_type    = "web"
 }
-
+/*
 
 #  CONTAINER REGISTRY (ACR)
 
