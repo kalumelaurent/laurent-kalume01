@@ -1,23 +1,27 @@
 
 
-#  Resource Group unique : Kami
+# CREATION DU RESOURCE GROUP UNIQUE (Kami)
 
+# Un Resource Group est comme un dossier dans Azure.
+# Il regroupe toutes les ressources liées à ton projet.
 resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name    #  Nom défini dans variables.tf (Kami)
-  location = var.location
+  name     = var.resource_group_name    # Nom du groupe défini dans variables.tf (ex: "Kami")
+  location = var.locationcluter         # Région Azure (ex: Canada Central)
 }
 
 
-#  Azure Container Registries (ACR)
 
-# Crée plusieurs ACR à partir d'une liste var.acr_names
+#  CREATION DES REGISTRES DE CONTENEURS (ACR)
+
+# Un ACR (Azure Container Registry) sert à stocker les images Docker.
+# Grâce au for_each, Terraform va créer plusieurs ACR à partir de la liste var.acr_names.
 resource "azurerm_container_registry" "acr" {
-  for_each            = toset(var.acr_names)
-  name                = each.key                     # ex: mcitacr1, mcitacr2
-  resource_group_name = azurerm_resource_group.rg.name
+  for_each            = toset(var.acr_names)              # Convertit la liste en ensemble unique
+  name                = each.key                          # Nom de chaque ACR (ex: mcitacr1, mcitacr2…)
+  resource_group_name = azurerm_resource_group.rg.name    # Tous les ACR sont placés dans le même Resource Group
   location            = azurerm_resource_group.rg.location
-  sku                 = var.acr_sku
-  admin_enabled       = true
+  sku                 = var.acr_sku                       # Type de performance (Basic, Standard, Premium)
+  admin_enabled       = true                              # Active le compte admin (utile pour test/démo)
 
   tags = {
     Project = var.project_name
@@ -26,88 +30,86 @@ resource "azurerm_container_registry" "acr" {
 }
 
 
-# Azure Kubernetes Clusters (AKS)
 
-# Crée plusieurs clusters à partir de la liste var.cluster_names
-# Chaque cluster pourra se connecter à l’un des ACR
+#  CREATION DES CLUSTERS KUBERNETES (AKS)
+
+# Un cluster Kubernetes (AKS) permet d’exécuter plusieurs conteneurs Docker.
+# On en crée plusieurs à partir de la liste var.cluster_names.
 resource "azurerm_kubernetes_cluster" "aks" {
-  for_each            = toset(var.cluster_names)
-  name                = each.key                     # ex: mcit-aks-1, mcit-aks-2
+  for_each            = toset(var.cluster_names)          # Crée un cluster AKS pour chaque nom
+  name                = each.key                          # Nom du cluster (ex: mcit-aks-1)
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  dns_prefix          = "${each.key}-dns"
+  dns_prefix          = "${each.key}-dns"                 # Préfixe DNS unique pour le cluster
 
+  #  Configuration du pool de nœuds (les serveurs qui exécuteront les conteneurs)
   default_node_pool {
-    name       = "systempool"
-    node_count = var.node_count
-    vm_size    = var.vm_size
+    name       = "systempool"                             # Nom du pool
+    node_count = var.node_count                           # Nombre de nœuds (serveurs)
+    vm_size    = var.vm_size                              # Taille de chaque machine virtuelle
   }
 
+  #  Identité gérée : permet au cluster d’interagir avec d’autres services Azure
   identity {
-    type = "SystemAssigned"
+    type = "SystemAssigned"                               # Azure gère automatiquement cette identité
   }
 
-  role_based_access_control_enabled = true
+  role_based_access_control_enabled = true                # Active la gestion des rôles (RBAC)
 
   tags = {
     Project = var.project_name
     Env     = var.environment
   }
 
-  depends_on = [azurerm_container_registry.acr]
+  depends_on = [azurerm_container_registry.acr]           # Attendre la création des ACR avant les clusters
 }
 
 
-#  Attribution des permissions ACR  AKS
+#  ATTRIBUTION DES PERMISSIONS ENTRE AKS ET ACR
 
-#  Donne la permission "AcrPull" pour que chaque cluster puisse tirer des images
-#  Associe chaque cluster AKS au premier ACR créé (par exemple le ACR principal)
+# Objectif : donner à chaque cluster AKS la permission de "tirer" (pull) les images Docker
+# depuis le premier ACR créé (ACR principal).
 resource "azurerm_role_assignment" "acr_pull" {
-  for_each             = toset(var.cluster_names)
+  for_each             = toset(var.cluster_names)          # Une permission par cluster
   principal_id         = azurerm_kubernetes_cluster.aks[each.key].kubelet_identity[0].object_id
-  role_definition_name = "AcrPull"
-  scope                = element(values(azurerm_container_registry.acr), 0).id # 💡 Premier ACR de la liste
+  # Identité du kubelet (le "robot" Kubernetes) du cluster
+  
+  role_definition_name = "AcrPull"                        # Rôle Azure permettant de lire les images dans ACR
+  scope                = element(values(azurerm_container_registry.acr), 0).id 
+  # On prend le premier ACR de la liste pour lui donner la permission
 }
 
 
 
+#  VARIABLES.TF — PARAMÈTRES DE CONFIGURATION
 
+# Ces variables permettent de personnaliser le déploiement facilement sans changer le code.
 
-
-# VARIABLES.TF — Personnalisation avec for_each
-
-
-#  Région Azure
 variable "locationcluter" {
   type        = string
   default     = "Canada Central"
 }
 
-#  Resource Group unique
 variable "resource_group_name" {
   type        = string
   default     = "Kami"
 }
 
-#  Liste des ACR à créer
 variable "acr_names" {
   type    = list(string)
   default = ["mcitacr1", "mcitacr2", "mcitacr3"]
 }
 
-#  Type de ACR
 variable "acr_sku" {
   type        = string
   default     = "Standard"
 }
 
-#  Liste des clusters AKS
 variable "cluster_names" {
   type    = list(string)
   default = ["mcit-aks-1", "mcit-aks-2", "mcit-aks-3", "mcit-aks-4", "mcit-aks-5"]
 }
 
-#  Taille et nombre de nœuds
 variable "vm_size" {
   type        = string
   default     = "Standard_B2s"
@@ -118,7 +120,6 @@ variable "node_count" {
   default     = 1
 }
 
-# Tags
 variable "project_name" {
   type        = string
   default     = "Kami-Multi-AKS-ACR"
@@ -131,22 +132,21 @@ variable "environment" {
 
 
 
-# OUTPUTS.TF — Résumé du déploiement
+#  OUTPUTS.TF — AFFICHAGE DES RÉSULTATS
 
+# À la fin de l’exécution de Terraform, ces outputs montrent les infos utiles du déploiement.
 
-#  Liste des ACR créés
 output "acr_list" {
   value = [for k, v in azurerm_container_registry.acr : v.login_server]
+  # Liste des adresses de connexion de tous les ACR créés
 }
 
-# Liste des clusters AKS créés
 output "aks_list" {
   value = [for k, v in azurerm_kubernetes_cluster.aks : v.name]
+  # Liste des noms de tous les clusters Kubernetes créés
 }
 
-#  Resource Group
 output "resource_group_name" {
   value = azurerm_resource_group.rg.name
+  # Nom du Resource Group (Kami)
 }
-
-
