@@ -13,11 +13,6 @@ variable "prefix" {
   default = "montrealitcollege"    # Préfixe pour nommer les ressources
 }
 
-# Nouvelle variable pour le Tenant ID (Azure Active Directory)
-variable "tenant_id2" {
-  type        = string
-  description = "AAD tenant ID (pour KeyVault, ML, etc.)"
-}
 
 
 # RANDOM STRING POUR NOM UNIQUE
