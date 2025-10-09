@@ -1,4 +1,4 @@
-
+/*
 
 
 #               VARIABLES
@@ -179,3 +179,5 @@ output "container_registry" {
 output "compute_cluster" {
   value = azurerm_machine_learning_compute_cluster.ml_cpu.name
 }
+
+*/
