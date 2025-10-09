@@ -118,7 +118,7 @@ resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
   location            = var.location2          
   resource_group_name = azurerm_resource_group.ml_rg.name
   workspace_name      = azurerm_machine_learning_workspace.ml_ws.name
-
+vm_priority                   = "LowPriority"
   vm_size = "STANDARD_DS3_V2"
 
   scale_settings {
