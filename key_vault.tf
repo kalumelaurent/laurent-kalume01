@@ -1,8 +1,9 @@
 
 
-#  VARIABLES
+#########################################
+#               VARIABLES
+#########################################
 
-# Nouvelle variable renommée : location2
 variable "location2" {
   type    = string
   default = "Canada Central"
@@ -13,10 +14,15 @@ variable "prefix" {
   default = "montrealitcollege"
 }
 
+variable "tenant_id" {
+  description = "ID du tenant Azure"
+  type        = string
+}
 
 
-
-# RANDOM STRING POUR NOM UNIQUE
+#########################################
+#         RANDOM STRING UNIQUE
+#########################################
 
 resource "random_string" "suffix" {
   length  = 6
@@ -25,7 +31,9 @@ resource "random_string" "suffix" {
 }
 
 
-#  RESOURCE GROUP
+#########################################
+#           RESOURCE GROUP
+#########################################
 
 resource "azurerm_resource_group" "ml_rg" {
   name     = "${var.prefix}-rg"
@@ -33,10 +41,12 @@ resource "azurerm_resource_group" "ml_rg" {
 }
 
 
-#  STORAGE ACCOUNT
+#########################################
+#         STORAGE ACCOUNT
+#########################################
 
 resource "azurerm_storage_account" "ml_storage" {
-  name                     = substr(lower("${var.prefix}st${random_string.suffix.result}"),0,24)
+  name                     = substr(lower("${var.prefix}st${random_string.suffix.result}"), 0, 24)
   resource_group_name      = azurerm_resource_group.ml_rg.name
   location                 = var.location2            
   account_tier             = "Standard"
@@ -44,7 +54,9 @@ resource "azurerm_storage_account" "ml_storage" {
 }
 
 
-#  KEY VAULT
+#########################################
+#              KEY VAULT
+#########################################
 
 resource "azurerm_key_vault" "ml_kv" {
   name                        = "${var.prefix}kv${random_string.suffix.result}"
@@ -57,7 +69,9 @@ resource "azurerm_key_vault" "ml_kv" {
 }
 
 
-#  APPLICATION INSIGHTS
+#########################################
+#        APPLICATION INSIGHTS
+#########################################
 
 resource "azurerm_application_insights" "ml_appi" {
   name                = "${var.prefix}-appi"
@@ -67,7 +81,9 @@ resource "azurerm_application_insights" "ml_appi" {
 }
 
 
-#  CONTAINER REGISTRY (ACR)
+#########################################
+#      CONTAINER REGISTRY (ACR)
+#########################################
 
 resource "azurerm_container_registry" "ml_acr" {
   name                = "${var.prefix}acr${random_string.suffix.result}"
@@ -78,7 +94,9 @@ resource "azurerm_container_registry" "ml_acr" {
 }
 
 
+#########################################
 #  MACHINE LEARNING WORKSPACE
+#########################################
 
 resource "azurerm_machine_learning_workspace" "ml_ws" {
   name                          = "${var.prefix}-ws"
@@ -98,7 +116,9 @@ resource "azurerm_machine_learning_workspace" "ml_ws" {
 }
 
 
-#  KEY VAULT ACCESS POLICY
+#########################################
+#     KEY VAULT ACCESS POLICY
+#########################################
 
 resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
   key_vault_id = azurerm_key_vault.ml_kv.id
@@ -111,24 +131,36 @@ resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
 }
 
 
-#  MACHINE LEARNING COMPUTE CLUSTER
+#########################################
+#   MACHINE LEARNING COMPUTE CLUSTER
+#########################################
 
 resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
-  name                = "${var.prefix}-cpu"
-  location            = var.location2          
-  resource_group_name = azurerm_resource_group.ml_rg.name
-  workspace_name      = azurerm_machine_learning_workspace.ml_ws.name
-vm_priority                   = "LowPriority"
-  vm_size = "STANDARD_DS3_V2"
+  name     = "${var.prefix}-cpu"
+  location = var.location2
+
+  machine_learning_workspace_id = azurerm_machine_learning_workspace.ml_ws.id
+
+  vm_size     = "STANDARD_DS3_V2"
+  vm_priority = "LowPriority"   # Machines à bas coût
 
   scale_settings {
-    min_node_count = 0
-    max_node_count = 1
+    min_node_count                       = 0
+    max_node_count                       = 1
+    scale_down_nodes_after_idle_duration = "PT5M"
   }
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  depends_on = [azurerm_machine_learning_workspace.ml_ws]
 }
 
 
-#  OUTPUTS
+#########################################
+#               OUTPUTS
+#########################################
 
 output "resource_group" {
   value = azurerm_resource_group.ml_rg.name
@@ -146,3 +178,6 @@ output "container_registry" {
   value = azurerm_container_registry.ml_acr.name
 }
 
+output "compute_cluster" {
+  value = azurerm_machine_learning_compute_cluster.ml_cpu.name
+}
