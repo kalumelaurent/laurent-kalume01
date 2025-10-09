@@ -1,8 +1,8 @@
 
 
-#########################################
+
 #               VARIABLES
-#########################################
+
 
 variable "location2" {
   type    = string
@@ -20,9 +20,9 @@ variable "tenant_id" {
 }
 
 
-#########################################
+
 #         RANDOM STRING UNIQUE
-#########################################
+
 
 resource "random_string" "suffix" {
   length  = 6
@@ -31,9 +31,8 @@ resource "random_string" "suffix" {
 }
 
 
-#########################################
 #           RESOURCE GROUP
-#########################################
+
 
 resource "azurerm_resource_group" "ml_rg" {
   name     = "${var.prefix}-rg"
@@ -41,9 +40,9 @@ resource "azurerm_resource_group" "ml_rg" {
 }
 
 
-#########################################
+
 #         STORAGE ACCOUNT
-#########################################
+
 
 resource "azurerm_storage_account" "ml_storage" {
   name                     = substr(lower("${var.prefix}st${random_string.suffix.result}"), 0, 24)
@@ -54,9 +53,8 @@ resource "azurerm_storage_account" "ml_storage" {
 }
 
 
-#########################################
 #              KEY VAULT
-#########################################
+
 
 resource "azurerm_key_vault" "ml_kv" {
   name                        = "${var.prefix}kv${random_string.suffix.result}"
@@ -69,9 +67,9 @@ resource "azurerm_key_vault" "ml_kv" {
 }
 
 
-#########################################
+
 #        APPLICATION INSIGHTS
-#########################################
+
 
 resource "azurerm_application_insights" "ml_appi" {
   name                = "${var.prefix}-appi"
@@ -81,9 +79,9 @@ resource "azurerm_application_insights" "ml_appi" {
 }
 
 
-#########################################
+
 #      CONTAINER REGISTRY (ACR)
-#########################################
+
 
 resource "azurerm_container_registry" "ml_acr" {
   name                = "${var.prefix}acr${random_string.suffix.result}"
@@ -94,9 +92,9 @@ resource "azurerm_container_registry" "ml_acr" {
 }
 
 
-#########################################
+
 #  MACHINE LEARNING WORKSPACE
-#########################################
+
 
 resource "azurerm_machine_learning_workspace" "ml_ws" {
   name                          = "${var.prefix}-ws"
@@ -116,9 +114,9 @@ resource "azurerm_machine_learning_workspace" "ml_ws" {
 }
 
 
-#########################################
+
 #     KEY VAULT ACCESS POLICY
-#########################################
+#
 
 resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
   key_vault_id = azurerm_key_vault.ml_kv.id
@@ -131,9 +129,9 @@ resource "azurerm_key_vault_access_policy" "ml_kv_policy" {
 }
 
 
-#########################################
+
 #   MACHINE LEARNING COMPUTE CLUSTER
-#########################################
+
 
 resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
   name     = "${var.prefix}-cpu"
@@ -158,9 +156,9 @@ resource "azurerm_machine_learning_compute_cluster" "ml_cpu" {
 }
 
 
-#########################################
+
 #               OUTPUTS
-#########################################
+
 
 output "resource_group" {
   value = azurerm_resource_group.ml_rg.name
