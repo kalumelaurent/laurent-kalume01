@@ -126,7 +126,7 @@ vm_priority                   = "LowPriority"
     max_node_count = 1
   }
 }
-/*
+
 
 #  OUTPUTS
 
@@ -145,4 +145,4 @@ output "storage_account" {
 output "container_registry" {
   value = azurerm_container_registry.ml_acr.name
 }
-*/
+
