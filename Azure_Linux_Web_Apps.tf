@@ -25,7 +25,7 @@ resource "azurerm_resource_group" "rg" {
   # Pourquoi ?
   # Sur Azure, toutes les ressources doivent être dans un Resource Group.
   # Il sert de "boîte" logique pour organiser, gérer, et supprimer toutes les ressources d'un projet en une seule action.
-}
+} #testing branch 
 
 
 # APP SERVICE PLAN - Machine partagée
